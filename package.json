@@ -22,10 +22,13 @@
     "prompt-sync": "^4.2.0",
     "unirest": "^0.6.0"
   },
+  "engines": {
+    "node": "14.6.0"
+  },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "start nodemon server.js && start  http://localhost:8080"
+     "start": "node server.js"
   },
   "author": "",
   "license": "ISC",

@@ -25,7 +25,8 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 
 
-var url = "mongodb://localhost:27017/moviesdb";
+var url = process.env.MONGODB_URI || "mongodb://localhost:27017/moviesdb";
+
 MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
   if (err) throw err;
   console.log("Database created!");
@@ -1569,10 +1570,10 @@ res.render('pages/about_us');
 
 
 
+const PORT = process.env.PORT || 8080
 
+app.listen(PORT, console.log(`server is starting at ${PORT}`));
 
-
-app.listen(8080);
 
 
 
