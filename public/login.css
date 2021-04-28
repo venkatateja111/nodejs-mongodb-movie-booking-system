@@ -1,0 +1,140 @@
+
+
+body
+{
+margin:0;
+padding:0;
+background-size:cover;
+background-position:center;
+background-family:sans-serif;
+}
+.loginbox ul
+{
+margin:0px;
+padding: 10px;
+list-style: none;
+}
+.loginbox ul li
+{
+float: left;
+width: 168px;
+height: 40px;
+background-color:#E89E00;
+line-height: 40px;
+text-align: center;
+font-size: 20px;
+margin-right:2px;
+border-radius: 20px;
+border: 4px solid gray;
+}
+.loginbox ul li a
+{
+text-decoration:none;
+color:#000000;
+display:block;
+}
+
+.loginbox ul li a:hover
+{
+background-color:#0EA101  ;
+border-radius: 20px;
+}
+.loginbox ul li ul li
+{
+display:none;
+font-size: 15px;
+}
+.loginbox ul li:hover ul li
+{
+display:block;
+}
+
+.loginbox
+{
+width:380px;
+height:470px;
+background-color: rgba(0,0,0,0.4);
+color:#fff;
+top:50%;
+left:50%;
+position:relative;
+transform:translate(-50%,-50%);
+box-sizing:border-box;
+}
+
+.loginbox .log
+{
+width:110px;
+height:110px;
+border-radius:50%;
+position:absolute;
+top: -50px;
+left: calc(50% - 50px);
+}
+
+.loginbox h1
+{
+margin: 0;
+padding: 60px;
+text-align: center;
+font-size: 22px;
+}
+
+.loginbox p
+{
+margin: 0;
+padding: 0;
+font-weight: bold;
+}
+
+.loginbox input
+{
+width: 88%;
+margin-bottom: 10px;
+}
+
+.loginbox input[type="text"], input[type="password"]
+{
+    margin-left: 20px;
+border: none;
+border-bottom: 1px solid #fff;
+background: transparent;
+outline: none;
+height: 40px;
+max-width: 100%;
+color: #fff;
+font-size: 16px;
+box-sizing: border-box;
+}
+
+.loginbox button
+{
+border: none!important;
+margin-left: 100px;
+padding-left: 50px;
+padding-right:50px;
+height: 40px;
+background: #E89E00 ;
+color: #fff;
+font-size: 18px;
+border-radius: 20px;
+cursor: pointer;
+}
+
+.loginbox button:hover
+{
+background-color:  green;
+}
+
+.loginbox a
+{
+text-decoration: none;
+font-size: 15px;
+line-height: 20px;
+color: #ffc107;
+}
+
+.loginbox a:hover
+{
+color:#65F63D;
+}

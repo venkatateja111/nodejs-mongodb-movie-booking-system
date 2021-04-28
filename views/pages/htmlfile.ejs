@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieTicks - Home</title>
+           
+           
+        
+        <style type="text/css">
+        .carousel-inner img {
+    width: 100%;
+    height: 100%;
+  }
+    .carousel-fade .carousel-inner .item {
+            transition-property: opacity;
+        }
+        
+        .item,
+        .active.left,
+        .active.right {
+            opacity: 0.5;
+        }
+      
+      .mb-4>.btn-floating i {
+    line-height: 0px;
+    }
+    
+    .up1{
+      font-size: 20px;
+    }
+    .up1:hover {
+      background-color: #4CAF50!important;
+      color: white!important;
+    }
+    
+    .but1{
+
+       display: inline-block;
+  text-decoration: none;
+  background: #004fff;
+  color: white;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  text-align: center;
+  vertical-align: middle;
+  overflow: hidden;
+  transition: .4s;
+  margin-top: 20px;
+  margin-bottom: 15px;
+
+    }
+   
+   .but2{
+    margin-left: 45%;
+   }
+
+
+  </style>
+
+</head>
+<body>
+<div class="header-blue">
+            
+            <%- include('../partials/header'); %>
+              
+<div id="demo" class="carousel slide carousel-fade" data-interval="2000" data-ride="carousel" data-pause="hover" data-wrap="true">
+  <ul class="carousel-indicators">
+    <li data-target="#demo" data-slide-to="0" class="active"></li>
+    <li data-target="#demo" data-slide-to="1"></li>
+    <li data-target="#demo" data-slide-to="2"></li>
+    <li data-target="#demo" data-slide-to="3"></li>
+  </ul>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img class="img-fluid" src="img/6.jpg"  >
+        
+    </div>
+    <div class="carousel-item">
+      <a href="https://www.paypal.com/in/webapps/mpp/account-selection" target="_blank"><img class="img-fluid" src="img/8.jpg"   ></a>
+      
+    </div>
+    <div class="carousel-item">
+      <img class="img-fluid" src="img/9.jpg"   >
+        
+    </div>
+    <div class="carousel-item">
+      <img class="img-fluid" src="img/10.jpg"   >
+        
+    </div>
+    
+   </div>
+  <a class="carousel-control-prev" href="#demo" data-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </a>
+  <a class="carousel-control-next" href="#demo" data-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </a>
+ 
+</div>
+
+<br><br><br>
+
+
+<div class="container my-4" id="upcmo">
+
+     <div class="text-center">
+        
+        <a href="/page/up/1" role="button" class="btn btn-light btn-rounded up1">See All UpComing Movies</a>
+     
+     </div>
+     
+  <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel" data-interval="2000"  data-pause="hover" data-wrap="true">
+
+   
+    <div class="controls-top">
+      <a class="btn-floating but1 but2" role="button"  href="#multi-item-example" data-slide="prev"><i class="fa fa-chevron-left"></i></a>
+      <a class="btn-floating but1" role="button"  href="#multi-item-example" data-slide="next"><i class="fa fa-chevron-right"></i></a>
+    </div>
+    
+   
+
+    <ol class="carousel-indicators">
+    <% if(typeof alert2 != 'undefined') { 
+for (i = 0; i < img2.length; i=i+3) { 
+            
+            if(i+2 >= img2.length){
+               continue
+             }
+
+             if(i == 0)
+            {
+               %><li data-target="#multi-item-example" data-slide-to="<%=i%>" class="active"></li><%
+             }
+         else
+         {
+               %><li data-target="#multi-item-example" data-slide-to="<%=i/3%>"></li><%
+         } 
+           }
+
+  }%>
+</ol>  
+    
+    <div class="carousel-inner" role="listbox">
+
+    
+       <% if(typeof alert2 != 'undefined') { %>
+    <% for (i = 0; i < img2.length; i=i+3) {  
+               if(i+2 >= img2.length){
+               continue
+             }
+                  if(i==0){
+                 %>
+      <div class="carousel-item active">
+
+        <div class="row">
+          <div class="col-lg-4 col-md-4 ">
+            <div class="card mb-2">
+              <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img2[i]%>"
+                   alt="Card image cap" onerror="this.style.display='none'">
+              <div class="card-body">
+                <h4 class="card-title"><%=title2[i]%></h4>
+                
+                <a class="btn btn-primary" href="/movie/up/<%=id2[i]%>">See Details</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-4 ">
+            <div class="card mb-2">
+              <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img2[i+1]%>"
+                   alt="Card image cap" onerror="this.style.display='none'">
+              <div class="card-body">
+                <h4 class="card-title"><%=title2[i+1]%></h4>
+                
+                <a class="btn btn-primary" href="/movie/up/<%=id2[i+1]%>">See Details</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-4 ">
+            <div class="card mb-2">
+              <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img2[i+2]%>"
+                   alt="Card image cap" onerror="this.style.display='none'" >
+              <div class="card-body">
+                <h4 class="card-title"><%=title2[i+2]%></h4>
+                
+                <a class="btn btn-primary" href="/movie/up/<%=id2[i+2]%>">See Details</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <%  }
+          
+           else
+              { 
+                %>
+                
+     
+      <div class="carousel-item">
+
+        <div class="row">
+          <div class="col-lg-4 col-md-4 ">
+            <div class="card mb-2"  >
+              <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img2[i]%>"
+                   alt="Card image cap"  onerror="this.style.display='none'">
+              <div class="card-body">
+                <h4 class="card-title"><%=title2[i]%></h4>
+                
+                <a class="btn btn-primary" href="/movie/up/<%=id2[i]%>">See Details</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-4 ">
+            <div class="card mb-2">
+              <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img2[i+1]%>"
+                   alt="Card image cap" onerror="this.style.display='none'">
+              <div class="card-body">
+                <h4 class="card-title"><%=title2[i+1]%></h4>
+                
+                <a class="btn btn-primary" href="/movie/up/<%=id2[i+1]%>">See Details</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-4 ">
+            <div class="card mb-2">
+              <img class="card-img-to" src="https://image.tmdb.org/t/p/w500<%=img2[i+2]%>"
+                   alt="Card image cap" onerror="this.style.display='none'">
+              <div class="card-body">
+                <h4 class="card-title"><%=title2[i+2]%></h4>
+                
+                <a class="btn btn-primary" href="/movie/up/<%=id2[i+2]%>">See Details</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      
+       <% }
+        } %>
+       <% } %>
+    </div>
+    
+
+  </div>
+  
+
+
+</div>
+
+<br><br>
+
+
+<div class="container my-4" id="nowmo">
+
+   <div class="text-center">
+        
+        <a href="/page/now/1" role="button" class="btn btn-light btn-rounded up1">See All NowPlaying Movies</a>
+     
+     </div>
+     
+
+
+  <div id="multi-item-example1" class="carousel slide carousel-multi-item" data-ride="carousel" data-interval="2000"  data-pause="hover" data-wrap="true">
+
+   
+    <div class="controls-top">
+      <a class="btn-floating but1 but2" role="button" href="#multi-item-example1" data-slide="prev"><i class="fa fa-chevron-left"></i></a>
+      <a class="btn-floating but1" role="button" href="#multi-item-example1" data-slide="next"><i class="fa fa-chevron-right"></i></a>
+    </div>
+    
+   
+
+    <ol class="carousel-indicators">
+    <% if(typeof alert2 != 'undefined') { 
+for (i = 0; i < img.length; i=i+3) { 
+            
+            if(i+2 >= img.length){
+               continue
+             }
+             
+
+             if(i == 0)
+            {
+               %><li data-target="#multi-item-example1" data-slide-to="<%=i%>" class="active"></li><%
+             }
+         else
+         {
+               %><li data-target="#multi-item-example1" data-slide-to="<%=i/3%>"></li><%
+         } 
+           }
+
+  }%>
+</ol>  
+   
+    <div class="carousel-inner" role="listbox">
+
+    
+       <% if(typeof alert2 != 'undefined') { %>
+
+    <% for (i = 0; i < img.length; i=i+3) {  
+
+                  if(i+2 >= img.length){
+
+               continue
+             }
+
+                  if(i==0){
+
+                 %>
+
+      <div class="carousel-item active">
+
+        <div class="row">
+          <div class="col-lg-4 col-md-4 ">
+            <div class="card mb-2">
+              <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img[i]%>"
+                   alt="Card image cap" onerror="this.style.display='none'" >
+              <div class="card-body">
+                <h4 class="card-title"><%=title[i]%></h4>
+                
+                <a class="btn btn-primary" href="/movie/now/<%=id[i]%>">See Details</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-4 ">
+            <div class="card mb-2">
+              <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img[i+1]%>"
+                   alt="Card image cap" onerror="this.style.display='none'" >
+              <div class="card-body">
+                <h4 class="card-title"><%=title[i+1]%></h4>
+                
+                <a class="btn btn-primary" href="/movie/now/<%=id[i+1]%>">See Details</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-4 ">
+            <div class="card mb-2">
+              <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img[i+2]%>"
+                   alt="Card image cap" onerror="this.style.display='none'" >
+              <div class="card-body">
+                <h4 class="card-title"><%=title[i+2]%></h4>
+                
+                <a class="btn btn-primary" href="/movie/now/<%=id[i+2]%>">See Details</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <%  }
+          
+           else
+              { 
+                %>
+                
+      
+      <div class="carousel-item">
+
+        <div class="row">
+          <div class="col-lg-4 col-md-4 ">
+            <div class="card mb-2"  >
+              <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img[i]%>"
+                   alt="Card image cap"  onerror="this.style.display='none'">
+              <div class="card-body">
+                <h4 class="card-title"><%=title[i]%></h4>
+                
+                <a class="btn btn-primary" href="/movie/now/<%=id[i]%>">See Details</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-4 ">
+            <div class="card mb-2">
+              <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img[i+1]%>"
+                   alt="Card image cap" onerror="this.style.display='none'">
+              <div class="card-body">
+                <h4 class="card-title"><%=title[i+1]%></h4>
+                
+                <a class="btn btn-primary" href="/movie/now/<%=id[i+1]%>">See Details</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-4 ">
+            <div class="card mb-2">
+              <img class="card-img-to" src="https://image.tmdb.org/t/p/w500<%=img[i+2]%>"
+                   alt="Card image cap" onerror="this.style.display='none'">
+              <div class="card-body">
+                <h4 class="card-title"><%=title[i+2]%></h4>
+                
+                <a class="btn btn-primary" href="/movie/now/<%=id[i+2]%>">See Details</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      
+       <% }
+        } %>
+       <% } %>
+    </div>
+  
+
+  </div>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
+</div>
+</div>
+<br><br>
+
+     <%- include('../partials/footer'); %>   
+
+
+</body>
+</html>
+

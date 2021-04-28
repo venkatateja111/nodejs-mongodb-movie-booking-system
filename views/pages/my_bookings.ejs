@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Bookings</title>
+</head>
+<style type="text/css">
+  th,td{
+    text-align: center!important;
+  }
+</style>
+<body>
+<div class="header-blue">
+<%- include('../partials/header'); %>
+
+<style type="text/css">
+  
+.header-blue {
+    padding-bottom: 40%!important;
+}
+.table-responsive {
+    max-height:560px;
+}
+
+</style>
+
+
+<script type="text/javascript">
+  $(document).ready(function() {
+  
+  var x = <%=total_rows%>
+  if(x == 0)
+  {
+    $('.jumbotron').show();
+    $('.table-responsive').hide();
+  }
+
+
+  generatePDF();
+});
+</script>
+
+
+
+<div class="container">
+
+
+
+ <div class="jumbotron" style="display: none;">
+  <h1 class="display-4">Hello <%=sess.Fullname%>!</h1>
+  <p class="lead">Please book some tickets inorder to view your bookings. Thank You</p>
+  <hr class="my-4">
+  
+</div>
+
+
+
+
+
+<div class="table-responsive">
+<table class="table table-bordered table-hover table-dark">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Date of Booking</th>
+      <th scope="col">Movie</th>
+      <th scope="col">No of Seats</th>
+      <th scope="col">Total</th>
+      <th scope="col">Ticket</th>
+      <th scope="col">Status</th>
+      <th scope="col">Cancel Ticket</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%
+     
+     for(i=total_rows-1;i>=0;i--)
+
+     {
+     %>
+    <tr>
+      <th scope="row"><%=total_rows-i%></th>
+      <td><%=date_of_booking[i]%></td>
+      <td><%=title2[i]%></td>
+      <td><%=no_of_seats[i]%></td>
+      <td><span>&#x20b9; </span><%=total[i]%></td>
+      <td>
+        <form action="/ticket" method="POST">
+           <input type="hidden" name="date_of_booking" value="<%=date_of_booking1[i]%>">
+           <input type="hidden" name="type" value="download">
+          <button type="submit"  class="btn btn-primary download">
+            <img src="img/download.svg" alt="Kiwi standing on oval">
+              </button>
+        </form>
+            
+      </td>
+      <td>
+        <%
+        
+        if(status[i] == "CONFIRMED")
+        {
+          %>
+            <button type="button" class="btn btn-success"><%=status[i]%></button>
+          <%
+        }
+        else
+        {
+           %>
+            <button type="button" class="btn btn-danger"><%=status[i]%></button>
+          <%
+        }
+
+        %>
+        
+      </td>
+      <td>
+        <form action="/ticket" method="POST">
+          <input type="hidden" name="date_of_booking" value="<%=date_of_booking1[i]%>">
+          <input type="hidden" name="type" value="cancel">
+           <%
+        
+        if(status[i] == "CONFIRMED")
+        {
+          %>
+            
+<button type="submit" class="btn btn-danger">Cancel</button>
+
+
+
+          <%
+        }
+        else
+        {
+           %>
+            ----------
+          <%
+        }
+
+        %>
+        
+        </form>
+      </td>
+    </tr>
+    
+    <%
+     }
+
+    %>
+      
+  </tbody>
+</table>
+
+</div>
+</div>
+</div>
+<%- include('../pages/download_ticket'); %>
+</body>
+</html>

@@ -1,0 +1,311 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="font.css">
+<script type="text/javascript" src="/bootstrap/js/jquery.js"></script>
+<title>MovieTicks - Sign up</title>
+<style>
+  
+body {
+  color: #fff;
+  background: #19aa8d;
+  font-family: 'Roboto', sans-serif;
+}
+.form-control {
+  font-size: 15px;
+}
+.form-control, .form-control:focus, .input-group-text {
+  border-color: #e1e1e1;
+}
+.form-control, .btn {        
+  border-radius: 3px;
+}
+.signup-form {
+  width: 550px;
+  margin: -40px auto;
+  padding: 30px 0;    
+}
+.signup-form form {
+  color: #999;
+  border-radius: 3px;
+  margin-bottom: 15px;
+  background: #fff;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  padding: 30px;
+}
+.signup-form h2 {
+  color: #333;
+  font-weight: bold;
+  margin-top: 0;
+}
+.signup-form hr {
+  margin: 0 -30px 20px;
+}
+.signup-form .form-group {
+  margin-bottom: 20px;
+}
+.signup-form label {
+  font-weight: normal;
+  font-size: 15px;
+}
+.signup-form .form-control {
+  min-height: 38px;
+  box-shadow: none !important;
+} 
+.signup-form .input-group-addon {
+  max-width: 42px;
+  text-align: center;
+} 
+.signup-form .btn, .signup-form .btn:active {        
+  font-size: 16px;
+  font-weight: bold;
+  background: #19aa8d !important;
+  border: none;
+  min-width: 140px;
+}
+.signup-form .btn:hover, .signup-form .btn:focus {
+  background: #179b81 !important;
+}
+.signup-form a {
+  color: #fff;  
+  text-decoration: underline;
+}
+.signup-form a:hover {
+  text-decoration: none;
+}
+.signup-form form a {
+  color: #19aa8d;
+  text-decoration: none;
+} 
+.signup-form form a:hover {
+  text-decoration: underline;
+}
+.signup-form .fa {
+  font-size: 21px;
+}
+.signup-form .fa-paper-plane {
+  font-size: 18px;
+}
+.signup-form .fa-check {
+  color: #fff;
+  left: 17px;
+  top: 18px;
+  font-size: 7px;
+  position: absolute;
+}
+
+.alertstyle{
+    width: 40%;
+    float: left;
+  }
+  .alert{
+    
+    width: 100%;
+    float: left;
+    margin: 20px;
+    margin-left: 40px;
+    color: black;
+     
+  }
+  .msg{
+    color: red;
+  }
+ 
+
+  
+  
+  
+</style>
+<script type="text/javascript">
+	
+  $(document).ready(function(){
+
+    $('[data-toggle="tooltip"]').tooltip();   
+
+    $(".fas").on('click', function(e){
+ if($('.pass1').attr('type')=='password' && $('.pass1').val()!=""){
+    $('.pass1').attr('type', 'text');
+    $('.pass2').attr('type', 'text')
+}
+ else{
+    $('.pass1').attr('type', 'password');
+    $('.pass2').attr('type', 'password');
+}
+});
+   
+    var old_title;
+  $('.pass1').on('mouseover', function(){
+    old_title = $(this).attr('title');
+    $('.title-message').html($(this).attr('title')).css('visibility', 'visible');
+    
+    $(this).attr('title', '');
+  });
+  
+  $('.pass1').on('mouseleave', function(){
+    $(this).attr('title', old_title);
+    $('.title-message').html('').css('visibility', 'hidden');
+  });
+
+ });
+
+
+
+
+
+</script>
+</head>
+<body>
+ <div class="header-blue">
+            
+            <%- include('../partials/header'); %>
+
+          
+
+       <% if(typeof alert != 'undefined') { 
+      msg0 = ""
+      msg1 = ""
+      msg2 = ""
+      msg3 = ""
+      msg4 = ""
+         
+             for(i=0;i< alert.length; i++) { 
+                    
+
+                     if(alert[i].param == "Fullname" )
+                      msg0 = alert[i].msg 
+                   
+                     if(alert[i].param == "email" ) 
+                     msg1 = alert[i].msg 
+                    
+                     if(alert[i].param == "password" )  
+                     msg2 = alert[i].msg 
+                    
+                     if(alert[i].param == "confirm_password" ) 
+                     msg3 = alert[i].msg
+                    
+                     if(alert[i].param == "phone" ) 
+                     msg4 = alert[i].msg 
+                     
+                     
+
+                     }
+
+                     
+                   }
+
+                   %>
+
+                   <% if(typeof alert2 != 'undefined') { 
+                    
+                    console.log(msg)
+                   
+                   msg1=msg } %>
+                   
+
+
+
+
+<div class="signup-form">
+    <form action="/signup_check" method="POST">
+    <h2>Sign Up</h2>
+    <p>Please fill in this form to create an account!</p>
+    <hr>
+        <div class="form-group">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <span class="fa fa-user"></span>
+          </span>                    
+        </div>
+        <input type="text" class="form-control" name="Fullname" placeholder="Full Name" value="<%if(typeof alert!='undefined'||typeof alert2!= 'undefined'){%><%=data.Fullname%><%}%>" style="height: auto;">
+        
+      </div>
+      <span class="msg"><%= typeof alert != 'undefined' ? msg0: '' %></span>
+        </div>
+        
+        <div class="form-group">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <i class="fa fa-paper-plane"></i>
+          </span>                    
+        </div>
+        <input type="text" class="form-control" name="email" placeholder="Email Address" value="<% if(typeof alert != 'undefined' || typeof alert2 != 'undefined') {%><%=data.email%><%} %>" >
+      </div>
+      <span class="msg"><% if(typeof alert != 'undefined' || typeof alert2 != 'undefined') {%><%=msg1%><%}%></span>
+        </div>
+     
+
+    <div class="form-group">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <i class="fa fa-lock"></i>
+          </span>                    
+        </div>
+        
+          <input type="password" class="form-control pass1" name="password" placeholder="Password" value="<%if(typeof alert!='undefined'||typeof alert2!= 'undefined'){%><%=data.password%><%}%>" data-toggle="tooltip" data-container="body" data-placement="right" title="
+          At least one special character 
+          Minimum length should be 5 
+          Should be one Uppercase 
+          Should be one Lowercase 
+          There should be one Number 
+          White space not allowed">
+        
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <i class="fas fa-eye"></i>
+          </span>                    
+        </div>
+       
+      </div>
+      <span class="msg"><%= typeof alert != 'undefined' ? msg2: '' %></span>
+      <span class="title-message msg"></span>
+        </div>
+
+        
+    <div class="form-group">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <i class="fa fa-lock"></i>
+            <i class="fa fa-check"></i>
+          </span>                    
+        </div>
+        <input type="password" class="form-control pass2" name="confirm_password" placeholder="Confirm Password" value="<%if(typeof alert!='undefined'||typeof alert2!= 'undefined'){%><%=data.confirm_password%><%}%>">
+        
+      </div>
+       <span class="msg"><%= typeof alert != 'undefined' ? msg3: '' %></span>
+        </div>
+      
+       <div class="form-group">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <i class="fa fa-phone-alt"></i>
+          </span>                    
+        </div>
+        <input type="number" class="form-control" name="phone" placeholder="phone" value="<%if(typeof alert != 'undefined' ||  typeof alert2 != 'undefined'){%><%=data.phone%><%}%>" >
+      </div>
+      <span class="msg"><%= typeof alert != 'undefined' ? msg4: '' %></span>
+        </div>
+       
+
+
+        <div class="form-group">
+      <label class="form-check-label"><input type="checkbox" required="required"> I accept the <a href="#">Terms of Use</a> &amp; <a href="#">Privacy Policy</a></label>
+    </div>
+    <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-lg">Sign Up</button>
+        </div>
+        <div class="text-center" style="color: black">Already have an account? <a href="/login">Login here</a></div>
+    </form>
+  
+</div>
+</div>
+<%- include('../partials/footer'); %>   
+</body>
+</html>

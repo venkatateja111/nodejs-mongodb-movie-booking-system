@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Payment page </title>
+    <script type="text/javascript" src="jquery.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">   
+
+    <style type="text/css">
+        body {
+    background: #f5f5f5
+}
+
+.rounded {
+    border-radius: 1rem
+}
+
+.nav-pills .nav-link {
+    color: #555
+}
+
+.nav-pills .nav-link.active {
+    color: white
+}
+
+input[type="radio"] {
+    margin-right: 5px
+}
+
+.bold {
+    font-weight: bold
+}
+
+    </style>
+    <script type="text/javascript">
+       $(document).ready(function(){
+$('[data-toggle="tooltip"]').tooltip();
+$("#cardNumber").on("input", function(e) {
+       var x = $("#cardNumber").val();
+       if(x == "")
+       $(".card1").css('display','none').attr('src', '');
+       else if(x[0] == 4)
+       $(".card1").css('display','').attr('src', 'img/visa.png');
+       else if(x[0] == 5)
+       $(".card1").css('display','').attr('src', 'img/mastercard.png');
+       else if(x[0] == 6)
+       $(".card1").css('display','').attr('src', 'img/rupay.png');
+      
+})
+})
+        function addDash (element) {
+        let ele = document.getElementById("cardNumber");
+        ele = ele.value.split('-').join(''); 
+        
+        let finalVal = ele.match(/.{1,4}/g).join('-');
+        document.getElementById(element.id).value = finalVal;
+    }
+    </script>
+</head>
+<body>
+ 
+ <div class="header-blue" style="padding-bottom: 250px;">
+         <%- include('../partials/header'); %>
+<div class="container py-5" style="margin-top: -40px;">
+    <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <div class="row">
+        <div class="col-lg-6 mx-auto">
+            <div class="card ">
+                <div class="card-header">
+                    <div class="bg-white shadow-sm pt-4 pl-2 pr-2 pb-2">
+                        <!-- Credit card form tabs -->
+                        <ul role="tablist" class="nav bg-light nav-pills rounded nav-fill mb-3">
+                            <li class="nav-item"> <a data-toggle="pill" href="#credit-card" class="nav-link active "> <i class="fas fa-credit-card mr-2"></i> Card </a> </li>
+                            <li class="nav-item"> <a data-toggle="pill" href="#paypal" class="nav-link "> <i class="fab fa-paypal mr-2"></i> Paypal </a> </li>
+                            
+                        </ul>
+                    </div> 
+
+                     <div class="tab-content">
+                       
+                        <div id="credit-card" class="tab-pane fade show active pt-3">
+
+                            <form action="/payment" method="POST">
+
+                                <div class="form-group"> <label for="username">
+                                        <h6>Card Owner</h6>
+                                    </label> <input type="text" name="cardHolderName" placeholder="Card Owner Name" value="<%if(typeof alert2!='undefined'){%><%=data.cardHolderName%><%}%>" required class="form-control "> 
+                                </div>
+                                
+
+                                <div class="form-group"> <label for="cardNumber">
+                                        <h6>Card number</h6>
+                                    </label>
+                                    <div class="input-group cardNumber">
+                                  <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" name="cardNumber" id="cardNumber" placeholder="Valid card number" class="form-control"  onkeyup="addDash(this)" maxlength="19" value="<%if(typeof alert2!='undefined'){%><%=data.cardNumber%><%}%>"required>
+                                        <div class="input-group-append">
+                                         <span class="input-group-text text-muted" style="padding: 0px;"> 
+                                         	<img class="card1 fab mx-1" src="" width="65" height="35" onerror="this.style.display = 'none'">
+                                        </span> 
+                                        </div>
+                                    </div>
+                                    <div class="a8" style="color: red;"><%= typeof msg1 != 'undefined' ? msg1: '' %></div>
+                                </div>
+
+
+
+
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="form-group"> <label><span class="hidden-xs">
+                                                    <h6>Expiration Date</h6>
+                                                </span></label>
+                                            <div class="input-group">
+                                          
+                                             <select  class="form-control" name="m_exp" required>
+                             <%
+        for(i=1;i< 13;i++)
+        {
+            if(typeof alert2 !== 'undefined' && data.m_exp == i)
+            {
+                    %>
+                      <option value="<%=i%>" selected><%=i%></option>
+                    <%
+             }
+                else
+                {
+                    %>
+                    <option value="<%=i%>"><%=i%></option>
+                    <%
+                }
+            }
+        %>
+                        </select>
+                         <select  class="form-control" name="y_exp" required>
+                             <%
+         year = new Date().getFullYear();
+        for(i=year;i< year+21;i++)
+        {
+            if(typeof alert2 !== 'undefined' && data.y_exp == i)
+            {
+                    %>
+                      <option value="<%=i%>" selected><%=i%></option>
+                    <%
+             }
+                else
+                {
+                    %>
+                    <option value="<%=i%>"><%=i%></option>
+                    <%
+                }
+            }
+        %>
+                        </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group mb-4"> 
+                                        	<label data-toggle="tooltip" title="Three digit CV code on the back of your card">
+                                                <h6>CVV <i class="fa fa-question-circle d-inline"></i></h6>
+                                            </label> 
+                                            <input type="number"  class="form-control" name="cvv" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==3) return false;" value = "<%if(typeof alert2!='undefined'){%><%=data.cvv%><%}%>" required> 
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-footer"> <button type="submit" class="subscribe btn btn-primary btn-block shadow-sm"> Confirm Payment </button>
+                                </div>
+                            </form>
+                        </div>
+                    
+
+
+
+
+
+                    <div id="paypal" class="tab-pane fade pt-3">
+                        
+                        <p> <a href="https://paypal.me/venkatateja111?locale.x=en_GB" target="_blank" role="button" class="btn btn-primary "><i class="fab fa-paypal mr-2"></i> Pay through Paypal</a> </p>
+                        <p class="text-muted"> Note: After clicking on the button, you will be directed to a secure gateway for payment. After completing the payment process, you will be redirected back to the website to view details of your order. </p>
+  
+                    </div>
+
+
+
+
+
+                </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+</body>
+</html>
