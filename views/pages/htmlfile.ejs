@@ -57,6 +57,14 @@
    .but2{
     margin-left: 45%;
    }
+  
+  @media (max-width: 767.98px) {
+
+  .btn-responsive{
+    font-size: 10px!important;
+  }
+
+  }
 
 
   </style>
@@ -120,29 +128,7 @@
       <a class="btn-floating but1 but2" role="button"  href="#multi-item-example" data-slide="prev"><i class="fa fa-chevron-left"></i></a>
       <a class="btn-floating but1" role="button"  href="#multi-item-example" data-slide="next"><i class="fa fa-chevron-right"></i></a>
     </div>
-    
-   
-
-    <ol class="carousel-indicators">
-    <% if(typeof alert2 != 'undefined') { 
-for (i = 0; i < img2.length; i=i+3) { 
-            
-            if(i+2 >= img2.length){
-               continue
-             }
-
-             if(i == 0)
-            {
-               %><li data-target="#multi-item-example" data-slide-to="<%=i%>" class="active"></li><%
-             }
-         else
-         {
-               %><li data-target="#multi-item-example" data-slide-to="<%=i/3%>"></li><%
-         } 
-           }
-
-  }%>
-</ol>  
+ 
     
     <div class="carousel-inner" role="listbox">
 
@@ -157,38 +143,38 @@ for (i = 0; i < img2.length; i=i+3) {
       <div class="carousel-item active">
 
         <div class="row">
-          <div class="col-lg-4 col-md-4 ">
+          <div class="col-4 col-md-4 ">
             <div class="card mb-2">
               <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img2[i]%>"
                    alt="Card image cap" onerror="this.style.display='none'">
               <div class="card-body">
-                <h4 class="card-title"><%=title2[i]%></h4>
+                <h4 class="card-title d-none d-sm-block"><%=title2[i]%></h4>
                 
-                <a class="btn btn-primary" href="/movie/up/<%=id2[i]%>">See Details</a>
+                <a class="btn btn-primary btn-responsive" href="/movie/up/<%=id2[i]%>">Show Details</a>
               </div>
             </div>
           </div>
 
-          <div class="col-lg-4 col-md-4 ">
+          <div class="col-4 col-md-4 ">
             <div class="card mb-2">
               <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img2[i+1]%>"
                    alt="Card image cap" onerror="this.style.display='none'">
               <div class="card-body">
-                <h4 class="card-title"><%=title2[i+1]%></h4>
+                <h4 class="card-title d-none d-sm-block"><%=title2[i+1]%></h4>
                 
-                <a class="btn btn-primary" href="/movie/up/<%=id2[i+1]%>">See Details</a>
+                <a class="btn btn-primary btn-responsive" href="/movie/up/<%=id2[i+1]%>">Show Details</a>
               </div>
             </div>
           </div>
 
-          <div class="col-lg-4 col-md-4 ">
+          <div class="col-4 col-md-4 ">
             <div class="card mb-2">
               <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img2[i+2]%>"
                    alt="Card image cap" onerror="this.style.display='none'" >
               <div class="card-body">
-                <h4 class="card-title"><%=title2[i+2]%></h4>
+                <h4 class="card-title d-none d-sm-block"><%=title2[i+2]%></h4>
                 
-                <a class="btn btn-primary" href="/movie/up/<%=id2[i+2]%>">See Details</a>
+                <a class="btn btn-primary btn-responsive" href="/movie/up/<%=id2[i+2]%>">Show Details</a>
               </div>
             </div>
           </div>
@@ -205,38 +191,38 @@ for (i = 0; i < img2.length; i=i+3) {
       <div class="carousel-item">
 
         <div class="row">
-          <div class="col-lg-4 col-md-4 ">
+          <div class="col-4 col-md-4 ">
             <div class="card mb-2"  >
               <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img2[i]%>"
                    alt="Card image cap"  onerror="this.style.display='none'">
               <div class="card-body">
-                <h4 class="card-title"><%=title2[i]%></h4>
+                <h4 class="card-title d-none d-sm-block"><%=title2[i]%></h4>
                 
-                <a class="btn btn-primary" href="/movie/up/<%=id2[i]%>">See Details</a>
+                <a class="btn btn-primary btn-responsive" href="/movie/up/<%=id2[i]%>">Show Details</a>
               </div>
             </div>
           </div>
 
-          <div class="col-lg-4 col-md-4 ">
+          <div class="col-4 col-md-4 ">
             <div class="card mb-2">
               <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img2[i+1]%>"
                    alt="Card image cap" onerror="this.style.display='none'">
               <div class="card-body">
-                <h4 class="card-title"><%=title2[i+1]%></h4>
+                <h4 class="card-title d-none d-sm-block"><%=title2[i+1]%></h4>
                 
-                <a class="btn btn-primary" href="/movie/up/<%=id2[i+1]%>">See Details</a>
+                <a class="btn btn-primary btn-responsive" href="/movie/up/<%=id2[i+1]%>">Show Details</a>
               </div>
             </div>
           </div>
 
-          <div class="col-lg-4 col-md-4 ">
+          <div class="col-4 col-md-4 ">
             <div class="card mb-2">
               <img class="card-img-to" src="https://image.tmdb.org/t/p/w500<%=img2[i+2]%>"
                    alt="Card image cap" onerror="this.style.display='none'">
               <div class="card-body">
-                <h4 class="card-title"><%=title2[i+2]%></h4>
+                <h4 class="card-title d-none d-sm-block"><%=title2[i+2]%></h4>
                 
-                <a class="btn btn-primary" href="/movie/up/<%=id2[i+2]%>">See Details</a>
+                <a class="btn btn-primary btn-responsive" href="/movie/up/<%=id2[i+2]%>">Show Details</a>
               </div>
             </div>
           </div>
@@ -279,27 +265,6 @@ for (i = 0; i < img2.length; i=i+3) {
     
    
 
-    <ol class="carousel-indicators">
-    <% if(typeof alert2 != 'undefined') { 
-for (i = 0; i < img.length; i=i+3) { 
-            
-            if(i+2 >= img.length){
-               continue
-             }
-             
-
-             if(i == 0)
-            {
-               %><li data-target="#multi-item-example1" data-slide-to="<%=i%>" class="active"></li><%
-             }
-         else
-         {
-               %><li data-target="#multi-item-example1" data-slide-to="<%=i/3%>"></li><%
-         } 
-           }
-
-  }%>
-</ol>  
    
     <div class="carousel-inner" role="listbox">
 
@@ -320,38 +285,38 @@ for (i = 0; i < img.length; i=i+3) {
       <div class="carousel-item active">
 
         <div class="row">
-          <div class="col-lg-4 col-md-4 ">
+          <div class="col-4 col-md-4 ">
             <div class="card mb-2">
               <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img[i]%>"
                    alt="Card image cap" onerror="this.style.display='none'" >
               <div class="card-body">
-                <h4 class="card-title"><%=title[i]%></h4>
+                <h4 class="card-title d-none d-sm-block"><%=title[i]%></h4>
                 
-                <a class="btn btn-primary" href="/movie/now/<%=id[i]%>">See Details</a>
+                <a class="btn btn-primary btn-responsive" href="/movie/now/<%=id[i]%>">Show Details</a>
               </div>
             </div>
           </div>
 
-          <div class="col-lg-4 col-md-4 ">
+          <div class="col-4 col-md-4 ">
             <div class="card mb-2">
               <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img[i+1]%>"
                    alt="Card image cap" onerror="this.style.display='none'" >
               <div class="card-body">
-                <h4 class="card-title"><%=title[i+1]%></h4>
+                <h4 class="card-title d-none d-sm-block"><%=title[i+1]%></h4>
                 
-                <a class="btn btn-primary" href="/movie/now/<%=id[i+1]%>">See Details</a>
+                <a class="btn btn-primary btn-responsive" href="/movie/now/<%=id[i+1]%>">Show Details</a>
               </div>
             </div>
           </div>
 
-          <div class="col-lg-4 col-md-4 ">
+          <div class="col-4 col-md-4 ">
             <div class="card mb-2">
               <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img[i+2]%>"
                    alt="Card image cap" onerror="this.style.display='none'" >
               <div class="card-body">
-                <h4 class="card-title"><%=title[i+2]%></h4>
+                <h4 class="card-title d-none d-sm-block"><%=title[i+2]%></h4>
                 
-                <a class="btn btn-primary" href="/movie/now/<%=id[i+2]%>">See Details</a>
+                <a class="btn btn-primary btn-responsive" href="/movie/now/<%=id[i+2]%>">Show Details</a>
               </div>
             </div>
           </div>
@@ -368,38 +333,38 @@ for (i = 0; i < img.length; i=i+3) {
       <div class="carousel-item">
 
         <div class="row">
-          <div class="col-lg-4 col-md-4 ">
+          <div class="col-4 col-md-4 ">
             <div class="card mb-2"  >
               <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img[i]%>"
                    alt="Card image cap"  onerror="this.style.display='none'">
               <div class="card-body">
-                <h4 class="card-title"><%=title[i]%></h4>
+                <h4 class="card-title d-none d-sm-block"><%=title[i]%></h4>
                 
-                <a class="btn btn-primary" href="/movie/now/<%=id[i]%>">See Details</a>
+                <a class="btn btn-primary btn-responsive" href="/movie/now/<%=id[i]%>">Show Details</a>
               </div>
             </div>
           </div>
 
-          <div class="col-lg-4 col-md-4 ">
+          <div class="col-4 col-md-4 ">
             <div class="card mb-2">
               <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img[i+1]%>"
                    alt="Card image cap" onerror="this.style.display='none'">
               <div class="card-body">
-                <h4 class="card-title"><%=title[i+1]%></h4>
+                <h4 class="card-title d-none d-sm-block"><%=title[i+1]%></h4>
                 
-                <a class="btn btn-primary" href="/movie/now/<%=id[i+1]%>">See Details</a>
+                <a class="btn btn-primary btn-responsive" href="/movie/now/<%=id[i+1]%>">Show Details</a>
               </div>
             </div>
           </div>
 
-          <div class="col-lg-4 col-md-4 ">
+          <div class="col-4 col-md-4 ">
             <div class="card mb-2">
               <img class="card-img-to" src="https://image.tmdb.org/t/p/w500<%=img[i+2]%>"
                    alt="Card image cap" onerror="this.style.display='none'">
               <div class="card-body">
-                <h4 class="card-title"><%=title[i+2]%></h4>
+                <h4 class="card-title d-none d-sm-block"><%=title[i+2]%></h4>
                 
-                <a class="btn btn-primary" href="/movie/now/<%=id[i+2]%>">See Details</a>
+                <a class="btn btn-primary btn-responsive" href="/movie/now/<%=id[i+2]%>">Show Details</a>
               </div>
             </div>
           </div>

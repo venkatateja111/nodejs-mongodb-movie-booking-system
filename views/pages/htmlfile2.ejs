@@ -27,46 +27,88 @@
       
                %>
 <div class="row">
-<div class="col-lg-3 col-md-6 col-xs-6">
+
+       <%
+       if(img[i] !== undefined)
+       {
+        %>
+        <div class="col-lg-3 col-6">
           <div class="card mb-2">
                <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img[i]%>" alt="movie"  >
               <div class="card-body">
-                <h4 class="card-title"><%=title[i]%></h4>
+                <h4 class="card-title d-none d-sm-block"><%=title[i]%></h4>
                 
                 <a class="btn btn-primary" href="/movie/<%=type[i]%>/<%=id[i]%>">See Details</a>
               </div>
           </div>
         </div>
-<div class="col-lg-3 col-md-6 col-xs-6">
+        <%
+      }
+        %>
+
+
+        <%
+       if(img[i+1] !== undefined)
+       {
+        %>
+        <div class="col-lg-3 col-6">
           <div class="card mb-2">
                <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img[i+1]%>" alt="movie"  >
               <div class="card-body">
-                <h4 class="card-title"><%=title[i+1]%></h4>
+                <h4 class="card-title d-none d-sm-block"><%=title[i+1]%></h4>
                 
                 <a class="btn btn-primary" href="/movie/<%=type[i+1]%>/<%=id[i+1]%>">See Details</a>
               </div>
           </div>
         </div>
-<div class="col-lg-3 col-md-6 col-xs-6">
+        <%
+      }
+        %>
+
+
+
+      <%
+       if(img[i+2] !== undefined)
+       {
+        %>
+        <div class="col-lg-3 col-6">
           <div class="card mb-2">
                <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img[i+2]%>" alt="movie"  >
               <div class="card-body">
-                <h4 class="card-title"><%=title[i+2]%></h4>
+                <h4 class="card-title d-none d-sm-block"><%=title[i+2]%></h4>
                 
                 <a class="btn btn-primary" href="/movie/<%=type[i+2]%>/<%=id[i+2]%>">See Details</a>
               </div>
           </div>
         </div>
-<div class="col-lg-3 col-md-6 col-xs-6">
+        <%
+      }
+        %>
+
+      
+
+       <%
+       
+       if(img[i+3] !== undefined)
+       {
+        %>
+        <div class="col-lg-3 col-6">
           <div class="card mb-2">
                <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img[i+3]%>" alt="movie"  >
               <div class="card-body">
-                <h4 class="card-title"><%=title[i+3]%></h4>
+                <h4 class="card-title d-none d-sm-block"><%=title[i+3]%></h4>
                 
                 <a class="btn btn-primary" href="/movie/<%=type[i+3]%>/<%=id[i+3]%>">See Details</a>
               </div>
           </div>
         </div>
+
+        <%
+      }
+        %>
+
+
+
 </div>
 <%} %> <% } %>
 </div>
