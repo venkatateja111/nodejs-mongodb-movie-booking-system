@@ -1,19 +1,14 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MovieTicks - Home</title>
-           
-           <link rel="stylesheet" href="/moviedetails/style1.css" media="screen">
+      
+      <title>MovieTicks - Movie Details</title>
+      <link rel="stylesheet" href="/moviedetails/style1.css" media="screen">
       <link rel="stylesheet" href="/moviedetails/style2.css" media="screen">
-      
+      <script src="/jquery.js"></script>
+      <style type="text/css">
         
-        <style type="text/css">
-      
-         
-         div.header.large.first {
+      div.header.large.first {
         border-bottom: 1px solid var(--primaryColor);
         background-position: right -200px top;
         background-size: cover;
@@ -56,6 +51,7 @@
 
   }
 
+       
 
 
 
@@ -63,28 +59,8 @@
 
 
 
-
-
-
-
-
-
-
-
-
-        </style>
-
-
-
-
-
-
-
-
-
-
-
-        <script type="text/javascript">
+      </style>
+     <script type="text/javascript">
        $(document).ready(function() {
 
         $(".play_trailer").click(function() {
@@ -99,16 +75,13 @@
        })
       })
      </script>
-
 </head>
-<body style="background: linear-gradient(135deg, #fe2929, #ffb3c5);">
-<div class="header-blue">
+<body>
+  <div class="header-blue" style="height: 100%;">
             
             <%- include('../partials/header'); %>
-
-	
-
- <div class="page_wrap movie_wrap">
+    <div class="container-fluid">  
+  <div class="page_wrap movie_wrap">
 <main id="main" class="smaller  subtle show_search_false">
   <section class="inner_content movie_content backdrop poster">
        
@@ -385,155 +358,10 @@
   
 </div></div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-         
+   
 </div>
-</body>
-</html>
+
+<%- include('../partials/footer'); %>
+</div>
+ </body>
+ </html>
