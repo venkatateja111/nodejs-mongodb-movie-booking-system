@@ -70,11 +70,12 @@
   </style>
 
 </head>
-<body>
-<div class="header-blue">
-            
-            <%- include('../partials/header'); %>
-              
+<body style="background: linear-gradient(135deg, #fe2929, #ffb3c5)!important;">
+  <div class="header-blue">
+ <%- include('../partials/header'); %>   
+
+<br><br><br><br><br>
+             
 <div id="demo" class="carousel slide carousel-fade" data-interval="2000" data-ride="carousel" data-pause="hover" data-wrap="true">
   <ul class="carousel-indicators">
     <li data-target="#demo" data-slide-to="0" class="active"></li>
@@ -148,7 +149,7 @@
               <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img2[i]%>"
                    alt="Card image cap" onerror="this.style.display='none'">
               <div class="card-body">
-                <h4 class="card-title d-none d-sm-block"><%=title2[i]%></h4>
+                <h4 class="card-title d-none d-xl-block"><%=title2[i]%></h4>
                 
                 <a class="btn btn-primary btn-responsive" href="/movie/up/<%=id2[i]%>">Show Details</a>
               </div>
@@ -160,7 +161,7 @@
               <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img2[i+1]%>"
                    alt="Card image cap" onerror="this.style.display='none'">
               <div class="card-body">
-                <h4 class="card-title d-none d-sm-block"><%=title2[i+1]%></h4>
+                <h4 class="card-title d-none d-xl-block"><%=title2[i+1]%></h4>
                 
                 <a class="btn btn-primary btn-responsive" href="/movie/up/<%=id2[i+1]%>">Show Details</a>
               </div>
@@ -172,7 +173,7 @@
               <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img2[i+2]%>"
                    alt="Card image cap" onerror="this.style.display='none'" >
               <div class="card-body">
-                <h4 class="card-title d-none d-sm-block"><%=title2[i+2]%></h4>
+                <h4 class="card-title d-none d-xl-block"><%=title2[i+2]%></h4>
                 
                 <a class="btn btn-primary btn-responsive" href="/movie/up/<%=id2[i+2]%>">Show Details</a>
               </div>
@@ -196,7 +197,7 @@
               <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img2[i]%>"
                    alt="Card image cap"  onerror="this.style.display='none'">
               <div class="card-body">
-                <h4 class="card-title d-none d-sm-block"><%=title2[i]%></h4>
+                <h4 class="card-title d-none d-xl-block"><%=title2[i]%></h4>
                 
                 <a class="btn btn-primary btn-responsive" href="/movie/up/<%=id2[i]%>">Show Details</a>
               </div>
@@ -208,7 +209,7 @@
               <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img2[i+1]%>"
                    alt="Card image cap" onerror="this.style.display='none'">
               <div class="card-body">
-                <h4 class="card-title d-none d-sm-block"><%=title2[i+1]%></h4>
+                <h4 class="card-title d-none d-xl-block"><%=title2[i+1]%></h4>
                 
                 <a class="btn btn-primary btn-responsive" href="/movie/up/<%=id2[i+1]%>">Show Details</a>
               </div>
@@ -220,7 +221,7 @@
               <img class="card-img-to" src="https://image.tmdb.org/t/p/w500<%=img2[i+2]%>"
                    alt="Card image cap" onerror="this.style.display='none'">
               <div class="card-body">
-                <h4 class="card-title d-none d-sm-block"><%=title2[i+2]%></h4>
+                <h4 class="card-title d-none d-xl-block"><%=title2[i+2]%></h4>
                 
                 <a class="btn btn-primary btn-responsive" href="/movie/up/<%=id2[i+2]%>">Show Details</a>
               </div>
@@ -290,7 +291,7 @@
               <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img[i]%>"
                    alt="Card image cap" onerror="this.style.display='none'" >
               <div class="card-body">
-                <h4 class="card-title d-none d-sm-block"><%=title[i]%></h4>
+                <h4 class="card-title d-none d-xl-block"><%=title[i]%></h4>
                 
                 <a class="btn btn-primary btn-responsive" href="/movie/now/<%=id[i]%>">Show Details</a>
               </div>
@@ -302,7 +303,7 @@
               <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img[i+1]%>"
                    alt="Card image cap" onerror="this.style.display='none'" >
               <div class="card-body">
-                <h4 class="card-title d-none d-sm-block"><%=title[i+1]%></h4>
+                <h4 class="card-title d-none d-xl-block"><%=title[i+1]%></h4>
                 
                 <a class="btn btn-primary btn-responsive" href="/movie/now/<%=id[i+1]%>">Show Details</a>
               </div>
@@ -314,7 +315,7 @@
               <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img[i+2]%>"
                    alt="Card image cap" onerror="this.style.display='none'" >
               <div class="card-body">
-                <h4 class="card-title d-none d-sm-block"><%=title[i+2]%></h4>
+                <h4 class="card-title d-none d-xl-block"><%=title[i+2]%></h4>
                 
                 <a class="btn btn-primary btn-responsive" href="/movie/now/<%=id[i+2]%>">Show Details</a>
               </div>
@@ -338,7 +339,7 @@
               <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img[i]%>"
                    alt="Card image cap"  onerror="this.style.display='none'">
               <div class="card-body">
-                <h4 class="card-title d-none d-sm-block"><%=title[i]%></h4>
+                <h4 class="card-title d-none d-xl-block"><%=title[i]%></h4>
                 
                 <a class="btn btn-primary btn-responsive" href="/movie/now/<%=id[i]%>">Show Details</a>
               </div>
@@ -350,7 +351,7 @@
               <img class="card-img-top" src="https://image.tmdb.org/t/p/w500<%=img[i+1]%>"
                    alt="Card image cap" onerror="this.style.display='none'">
               <div class="card-body">
-                <h4 class="card-title d-none d-sm-block"><%=title[i+1]%></h4>
+                <h4 class="card-title d-none d-xl-block"><%=title[i+1]%></h4>
                 
                 <a class="btn btn-primary btn-responsive" href="/movie/now/<%=id[i+1]%>">Show Details</a>
               </div>
@@ -362,7 +363,7 @@
               <img class="card-img-to" src="https://image.tmdb.org/t/p/w500<%=img[i+2]%>"
                    alt="Card image cap" onerror="this.style.display='none'">
               <div class="card-body">
-                <h4 class="card-title d-none d-sm-block"><%=title[i+2]%></h4>
+                <h4 class="card-title d-none d-xl-block"><%=title[i+2]%></h4>
                 
                 <a class="btn btn-primary btn-responsive" href="/movie/now/<%=id[i+2]%>">Show Details</a>
               </div>
@@ -413,8 +414,6 @@
 <br><br>
 
      <%- include('../partials/footer'); %>   
-
-
 </body>
 </html>
 
