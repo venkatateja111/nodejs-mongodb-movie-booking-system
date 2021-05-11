@@ -4,50 +4,65 @@
 <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        <link rel="stylesheet" type="text/css" href="login.css">
-        
-<title>login page </title>
-<style>
+        <title>login page </title>
+         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     
-.loginbox label, .a8{
-    padding-left: 15px;
-}
+        <link rel="stylesheet" type="text/css" href="login2.css">
 
-.loginbox span{
-    color: white;
+        <style>
+    
+
+ .msg{
+    color: red;
     padding-left: 76px;
     font-size: 18px;
 }
 
 </style>
+        
+
+
 
 </head>
         
 <body>
 <div class="header-blue">
      <%- include('../partials/header'); %>
-    <div class="row">
-    <div class="col-sm-12 col-lg-12">   
-<div class="loginbox">
 
-<img src="img/log.png" class="log">
-<h1>LOGIN here</h1>
-<span class="msg"><%= typeof msg != 'undefined' ? msg: '' %></span>
-<form action="/login_submit" method="POST">
-<label>E-mail :</label>
-<input type="text" name="email" id="email" value="<% if(typeof alert2 != 'undefined') {%><%=data.email%><%} %>">
-<label>Password :</label>
-<input type="password" name="password" id="password" value="<% if(typeof alert2 != 'undefined') {%><%=data.password%><%} %>">
-<button>LOGIN</button><br><br>
-</form>
-<a class="a8" href="/signup">create a new account</a><br>
-<a class="a8" href="/">Home page</a>
-</div>
-</div>
-</div>
- </div>  
-  
+  <div class="container" style="margin-top: -45px;">
+    <div class="row">
+      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card card-signin my-5">
+          <div class="card-body">
+            <h5 class="card-title text-center">Sign In</h5>
+            <span class="msg"><%= typeof msg != 'undefined' ? msg: '' %></span>
+            <form action="/login_submit" method="POST" class="form-signin">
+              <div class="form-label-group">
+                <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" value="<% if(typeof alert2 != 'undefined') {%><%=data.email%><%} %>" required autofocus>
+                <label for="inputEmail">Email address</label>
+              </div>
+
+              <div class="form-label-group">
+                <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" value="<% if(typeof alert2 != 'undefined') {%><%=data.password%><%} %>" required>
+                <label for="inputPassword">Password</label>
+              </div>
+
+              <div class="custom-control custom-checkbox mb-3">
+                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                <label class="custom-control-label" for="customCheck1">Remember password</label>
+              </div>
+              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+              <hr class="my-4">
+              <a role="button" href="/google" class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i class="fab fa-google mr-2"></i> Sign in with Google</a>
+              <a role="button" href="/facebook" class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook</a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
     
+ </div>    
 </body>
 </html>

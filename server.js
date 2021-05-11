@@ -7,6 +7,7 @@ var MongoClient = require('mongodb').MongoClient;
 const fetch = require('node-fetch');
 require('dotenv').config()
 const passport = require('passport');
+const FacebookStrategy = require('passport-facebook').Strategy;
 const cookieSession = require('cookie-session')
 require('./passport-setup');
 var async = require("async");
@@ -37,6 +38,26 @@ const isLoggedIn = (req, res, next) => {
 // Initializes passport and passport sessions
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 var url = process.env.MONGODB_URI || "mongodb://localhost:27017/moviesdb";
@@ -1134,7 +1155,7 @@ app.post('/settings_script', urlencodedParser ,  [
       var Fullname = req.body.Fullname
       var email = req.body.email
       var phone = req.body.phone
-      
+      phone = phone.replace(/^0+/, '')
 
       MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
                  
@@ -1158,7 +1179,7 @@ app.post('/settings_script', urlencodedParser ,  [
                    else
                    {
 
-                   var result = dbo.collection("users").findOneAndUpdate({ "email" : sess.email }, {$set: {"Fullname" : req.body.Fullname, "email": req.body.email,"phone":req.body.phone}}).then(function(result)
+                   var result = dbo.collection("users").findOneAndUpdate({ "email" : sess.email }, {$set: {"Fullname" : req.body.Fullname, "email": req.body.email,"phone":phone}}).then(function(result)
                   
                 {
                   
@@ -1811,23 +1832,98 @@ for(i=0;i<temp_seats.length;i++)
 
 
 
+app.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+app.get('/facebook', passport.authenticate('facebook', { scope: ['public_profile', 'email'] }));
 
-app.get('/google2', (req, res) => res.render('pages/index'))
-app.get('/failed', (req, res) => res.send('You Failed to log in!'))
+app.get('/google/callback', passport.authenticate('google', { successRedirect: '/good', failureRedirect: '/login' }));
+app.get('/facebook/callback', passport.authenticate('facebook', { successRedirect: '/good', failureRedirect: '/login' }));
 
 app.get('/good', isLoggedIn, (req, res) =>{
-    res.render("pages/profile",{name:req.user.displayName,pic:req.user.photos[0].value,email:req.user.emails[0].value})
+ 
+console.log(req.user)
+MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
+                  if (err) throw err;
+                  var dbo = db.db("moviesdb");
+
+                   dbo.collection("users").findOne({provider: req.user.provider, id: req.user.id}).then(function(result)
+                {
+                     
+                        sess = req.session;
+                        if(sess.mid)
+                        {
+                        var  url1 = "/booking/"+sess.mid
+                        }
+                        else
+                          var url1 = "/"
+                        
+                        
+                     
+                     sess.Fullname = req.user.displayName;
+                     
+                     if(req.user.provider == "google"){
+                     	email = req.user.emails[0].value
+                     	sess.email = email
+                     }
+                     	
+                     else if(req.user.provider == "facebook")
+                     {
+                     	email="email"
+                     	sess.email=email
+
+                     }
+                        
+
+
+
+                     if( result == null )
+                     {
+                        
+                        var myobj = {  
+                                 Fullname: req.user.displayName, 
+                                 provider: req.user.provider,
+                                 id: req.user.id,
+                                 email: email, 
+                                 password: "", 
+                                 phone: "" 
+                              };
+
+                          sess.phone = "";
+                         
+
+                           dbo.collection("users").insertOne(myobj, function(err, res) {
+                             if (err) throw err;
+                             console.log("1 user inserted into databse");
+                              db.close();
+                           }); 
+                    }
+                    else
+                    	sess.phone = result.phone
+
+                    res.redirect(url1)
+                     
+                });
+
+
+                 
+                });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 })
 
 
-app.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
-
-app.get('/google/callback', passport.authenticate('google', { failureRedirect: '/failed' }),
-  function(req, res) {
-    
-    res.redirect('/good');
-  }
-);
+app.get('/failed', (req, res) => res.send('You Failed to log in!'))
 
 
 

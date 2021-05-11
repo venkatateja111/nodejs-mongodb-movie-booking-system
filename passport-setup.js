@@ -1,5 +1,7 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth2').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
+
 
 passport.serializeUser(function(user, done) {
     /*
@@ -22,11 +24,22 @@ passport.deserializeUser(function(user, done) {
 passport.use(new GoogleStrategy({
     clientID:process.env.GOOGLE_CLIENT_ID,
     clientSecret:process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL:process.env.CALLBACK_URL,
+    callbackURL:process.env.GOOGLE_CALLBACK_URL,
     passReqToCallback:true
   },
   function(request, accessToken, refreshToken, profile, done) {
     console.log(profile)
+    return done(null, profile);
+  }
+));
+
+
+passport.use(new FacebookStrategy({
+    clientID:process.env.FACEBOOK_CLIENT_ID,
+    clientSecret:process.env.FACEBOOK_CLIENT_SECRET,
+    callbackURL: process.env.FACEBOOK_CALLBACK_URL
+  },
+   function (accessToken, refreshToken, profile, done) {
     return done(null, profile);
   }
 ));
