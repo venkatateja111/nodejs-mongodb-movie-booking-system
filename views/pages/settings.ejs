@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Settings</title>
+   <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="jquery.js"></script>
 <style type="text/css">
     body{
@@ -322,8 +324,8 @@
                      if(sess.bill_total_rows > 0)
                      {
                         %>
-                             
-                             <div class="table-responsive">
+                                              
+                             <div class="table-responsive" style="max-height:560px;">
 <table class="table table-bordered table-hover">
   <thead>
     <tr>
@@ -351,7 +353,7 @@
 
          %>
          <td>Paid for movie <%=sess.bill_title[i]%></td>
-         <td style="color: red"><span>- &nbsp &nbsp</span><span>&#x20b9; </span><%=sess.bill_Total_price_paid[i]%></td>
+         <td style="color: red; font-size: small;"><span>- &nbsp &nbsp</span><span>&#x20b9; </span><%=sess.bill_Total_price_paid[i]%></td>
          <%
         
         }
@@ -360,7 +362,7 @@
 
          %>
          <td>Refund for movie <%=sess.bill_title[i]%></td>
-         <td style="color: green"><span>+ &nbsp &nbsp</span><span>&#x20b9; </span><%=sess.bill_Total_price_paid[i]%></td>
+         <td style="color: green; font-size: small;"><span>+ &nbsp &nbsp</span><span>&#x20b9; </span><%=sess.bill_Total_price_paid[i]%></td>
          <%
         
         }

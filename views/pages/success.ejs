@@ -7,8 +7,10 @@
 <script type="text/javascript">
     function alertfunc(){
         var status = "<%=mail_status%>"
-        if(status == "sent")
+        if(status == "success")
             alert("message sent successfully")
+        else if(status == "failed")
+            alert("error sending message")
     }
 </script>
 </head>      

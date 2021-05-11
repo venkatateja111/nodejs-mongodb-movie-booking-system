@@ -12,8 +12,7 @@
    
     <link rel="stylesheet" href="/booking/css/style2.css" type="text/css" media="all">
    
-    <script src='/booking/js/jquery.js'></script>
-    <script src='/booking/js/angular.min.js'></script>
+
     <style type="text/css">
 
         ul.seat_w3ls {
@@ -122,7 +121,7 @@ function ChangecatList() {
         <div class="city theatres timing" style="position: -webkit-sticky;
   position: sticky;
   top: 0;">
-            <form action="/booking/<%=id%>" method="POST">
+            <form action="/booking" method="POST">
                 
                  <div class="row" style="padding-top: 20px;">
                     <style type="text/css">
@@ -140,7 +139,7 @@ function ChangecatList() {
         <%
         for(i=0;i< cities.length;i++)
         {
-            if(alert1 == 'returning values' && data.select_city == cities[i])
+            if((alert1 == 'returning values' && data.select_city == cities[i]) || (alert1 == 'returning values' && selected_city == cities[i]))
             {
                     %>
 

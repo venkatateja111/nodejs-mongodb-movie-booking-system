@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ticket</title>
+    <script type="text/javascript" src="/bootstrap/js/jquery.js"></script>
+    
+    <style type="text/css">
+        
+        .a2{
+            float: left;
+            margin-top: 10px;
+            margin-left: 20px;
+            
+            margin-bottom: 10px;
+            
+        }
+        .a3{
+            float: left;
+            
+            margin: 30px;
+        }
+        .a1 h1,h2,p{
+            color: black;
+        }
+        .a1 table{
+            margin: 15px;
+
+        }
+        .a1 table th
+        {
+            color: black!important;
+        }
+        .a1 p{
+            font-size: large;
+            font-weight: 550;
+        }
+        
+        .a1 .table thead th {
+            vertical-align: bottom;
+            border-bottom: black;
+        }
+
+        .a1 .table-bordered td, .a1 .table-bordered th {
+            border: 1px solid black;
+        }
+
+        .a1 .table td {
+            font-weight: 700;
+        }
+
+        .a1 .table th {
+            font-weight: 700;
+            background: none;
+        }
+
+       
+
+    </style>
+    <script src="/html2canvas.min.js"></script>
+    <script type="text/javascript" src="/jspdf.debug.js"></script>
+    <script type="text/javascript">
+        
+         $(document).ready(function(){
+        
+        var download = "<%=download%>";
+
+            if(download == "show")
+        {
+
+            $(".a1").show();
+            var x = <%=sess.extra_orders.length%>;
+            var y = "<%=sess.ticket_status%>"
+            if(x > 0)
+            $(".table").show();
+
+            if(y == "CONFIRMED")
+                $('#status_color').css("color","green");
+            else
+                 $('#status_color').css("color","red");
+
+
+             
+
+        }
+
+
+         })
+
+    </script>
+</head>
+<body>
+    <div class="header-blue">
+            
+            <%- include('../partials/header'); %>
+<div class="container-fluid a1" id="a1" style="display: none;">
+   <div class="row"  style=" background-color: white;">
+    <div class="a2">
+        <img src="https://image.tmdb.org/t/p/w500/<%=sess.poster%>" style="height: 230px;"  alt="movie"  >
+    </div>
+    <div class="a3">
+        <h1><%=sess.title%> &nbsp &nbsp <span id="status_color" style="font-size: 30px;"><%=sess.ticket_status%></span></h1>
+        
+        <p><%=sess.date%> &nbsp <%=sess.time%></p>
+        <p>Amount paid : &#x20b9; <%=sess.total_price%>  &nbsp &nbsp &nbsp No.of.Seats :  <%=sess.price%></p>   
+        <p><%=sess.theatre%> &nbsp, &nbsp &nbsp <%=sess.city%></p>
+        <h2>Seats: <%=sess.seats%></h2>
+
+    </div>
+</div>
+<div class="row" style=" background-color: white;">
+    <table class="table table-bordered table-hover" style="display: none;">
+  <thead>
+    <tr>
+      <th scope="col">No.</th>
+      <th scope="col">Item</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Price</th>
+    </tr>
+  </thead>
+  <tbody>
+ <%
+ 
+count = sess.extra_orders.length
+count = count/3
+arr = []
+arr = sess.extra_orders
+for(i=0;i< count ;i++)
+{
+
+    j = i*3
+
+    %>
+     <tr>
+      <th scope="row"><%=i+1%></th>
+      <td><%=arr[j]%></td>
+      <td><%=arr[j+1]%></td>
+      <td>&#x20b9; <%=arr[j+2]%></td>
+    </tr>
+
+    <%
+}
+ %>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+</body>
+</html>

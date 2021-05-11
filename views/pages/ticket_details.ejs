@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieTicks - Home</title>
+
+    <script type="text/javascript" src="/bootstrap/js/jquery.js"></script>
+
+    <style type="text/css">
+        p,.table-bordered td, .table-bordered th{
+            font-weight: 600;
+        }
+
+        .foods{
+            margin-left: 30px;
+        }
+          
+        @media (max-width: 575.98px) { 
+
+            .foods{
+            margin-left:  0px;
+           }
+
+            img{
+                margin-left: 75px!important;
+            }
+        
+            .content1{
+                margin-left: 75px!important;
+            }
+         
+           #no_seats::before{
+
+                content: "\a";
+                white-space: pre;
+           }
+
+
+         }  
+        
+    </style>
+
+    <script type="text/javascript">
+        
+         $(document).ready(function(){
+        
+
+            var x = <%=sess.extra_orders.length%>;
+            var y = "<%=sess.ticket_status%>"
+            if(x > 0)
+            $(".table").show();
+
+            if(y == "CONFIRMED")
+            {
+                $('#status_color').css("color","green");
+                $(".add_remove").show();
+            }
+            else
+                 $('#status_color').css("color","red");
+
+
+             
+
+        
+
+
+         })
+
+    </script>    
+
+</head>
+<body>
+<div class="header-blue">
+            
+            <%- include('../partials/header'); %>
+
+<div class="container">
+    <div class="row"  style=" background-color: whitesmoke;">
+        <br><br>
+    </div>
+   <div class="row"  style=" background-color: whitesmoke;">
+   
+  <div class="offset-md-1">
+    <img src="https://image.tmdb.org/t/p/w500/<%=sess.poster%>" style="height: 300px;"  alt="movie"  >
+  </div>
+
+  <div class="offset-md-2 content1">
+        <h1><%=sess.title%> &nbsp &nbsp <span id="status_color" style="font-size: 30px;"><%=sess.ticket_status%></span></h1>
+        
+        <p><%=sess.date%> &nbsp <%=sess.time%></p>
+        <p>Amount paid : &#x20b9; <%=sess.total_price%>  &nbsp &nbsp &nbsp <span id="no_seats" >No.of.Seats :  <%=sess.price%></span></p>   
+        <p><%=sess.theatre%> &nbsp, &nbsp &nbsp <%=sess.city%></p>
+        <h2>Seats: <%=sess.seats%></h2>
+
+
+        <%
+         
+         
+         today_date = new Date()
+         date_of_show2 = new Date(date_of_show2)
+
+         console.log(date_of_show2,today_date)
+
+        if(date_of_show2 > today_date)
+        {
+
+            %>
+
+            <h2 class="add_remove" style="display: none;"><span><a role="button" href="/update_ticket2/<%=date_of_booking%>" class="btn btn-primary">Add/Remove Seats</a></span><span class="foods"><button class="btn btn-primary">Add/Remove Foods</button></span></h2>
+
+
+
+
+
+            <%
+        }
+        
+       %>
+  </div>
+  
+</div>
+<div class="row"  style=" background-color: whitesmoke;">
+        <br><br>
+    </div>
+<div class="row" style=" background-color: white;">
+    <table class="table table-bordered table-hover" style="display: none;">
+  <thead>
+    <tr>
+      <th scope="col">No.</th>
+      <th scope="col">Item</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Price</th>
+    </tr>
+  </thead>
+  <tbody>
+ <%
+ 
+count = sess.extra_orders.length
+count = count/3
+arr = []
+arr = sess.extra_orders
+for(i=0;i< count ;i++)
+{
+
+    j = i*3
+
+    %>
+     <tr>
+      <th scope="row"><%=i+1%></th>
+      <td><%=arr[j]%></td>
+      <td><%=arr[j+1]%></td>
+      <td>&#x20b9; <%=arr[j+2]%></td>
+    </tr>
+
+    <%
+}
+ %>
+  </tbody>
+</table>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              
+</div>
+     <%- include('../partials/footer'); %>   
+</body>
+</html>

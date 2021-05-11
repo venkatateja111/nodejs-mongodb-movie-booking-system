@@ -1,14 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Bookings</title>
-</head>
+
 <style type="text/css">
   th,td{
     text-align: center!important;
   }
-</style>
-<body>
+  </style>
+  <script type="text/javascript">
+    function alertfunc(){
+        var status = "<%=mail_status%>"
+        if(status == "success")
+            alert("message sent successfully")
+        else if(status == "failed")
+            alert("error sending message")
+    }
+</script>
+</head>
+<body onload="alertfunc()">
 <div class="header-blue">
 <%- include('../partials/header'); %>
 
@@ -26,7 +38,6 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-  
   var x = <%=total_rows%>
   if(x == 0)
   {
@@ -34,6 +45,12 @@
     $('.table-responsive').hide();
   }
 
+ 
+  
+  $('button.btn.btn-primary.mail').click(function() {
+  var x = $(this).parent().find("input.date_of_booking").val();
+   $("input.date_of_booking2").val(x);
+  });
 
   generatePDF();
 });
@@ -41,7 +58,7 @@
 
 
 
-<div class="container">
+<div class="container-fluid">
 
 
 
@@ -63,16 +80,20 @@
       <th scope="col">#</th>
       <th scope="col">Date of Booking</th>
       <th scope="col">Movie</th>
-      <th scope="col">No of Seats</th>
       <th scope="col">Total</th>
-      <th scope="col">Ticket</th>
+      <th scope="col">Update Booking</th>
+      <th scope="col">Download Ticket</th>
+      <th scope="col">Mail Ticket</th>
       <th scope="col">Status</th>
       <th scope="col">Cancel Ticket</th>
     </tr>
   </thead>
   <tbody>
     <%
-     
+        today_date = new Date()
+        show_dates = sess.date_of_show
+        
+
      for(i=total_rows-1;i>=0;i--)
 
      {
@@ -81,8 +102,32 @@
       <th scope="row"><%=total_rows-i%></th>
       <td><%=date_of_booking[i]%></td>
       <td><%=title2[i]%></td>
-      <td><%=no_of_seats[i]%></td>
       <td><span>&#x20b9; </span><%=total[i]%></td>
+
+
+      <td>
+        <%
+        date_of_show2 = show_dates[i]
+        
+        date = date_of_show2.substring(0,2)
+        month = date_of_show2.substring(3,5)
+        year = date_of_show2.substring(6,10)
+
+        date_of_show2 = year+"-"+month+"-"+date
+        date_of_show2 = new Date(date_of_show2)
+       %>
+        <form action="/update_ticket" method="POST">
+           <input type="hidden" name="date_of_booking" value="<%=date_of_booking1[i]%>">
+           <input type="hidden" name="date_of_show2" value="<%=date_of_show2%>">
+          <button type="submit"  class="btn btn-primary">View Details</button>
+        </form>
+         
+         <%
+         %>
+      </td>
+
+
+
       <td>
         <form action="/ticket" method="POST">
            <input type="hidden" name="date_of_booking" value="<%=date_of_booking1[i]%>">
@@ -92,6 +137,39 @@
               </button>
         </form>
             
+      </td>
+      <td>
+        
+       <form action="/mail2" method="POST">
+           
+          <button type="button"  class="btn btn-primary mail" data-toggle="modal" data-target="#exampleModal">
+           <i class="fa fa-envelope" aria-hidden="true"></i>
+              </button>
+             <input type="hidden" class="date_of_booking" name="date_of_booking" value="<%=date_of_booking1[i]%>">
+             <input type="hidden" class="date_of_booking2" name="date_of_booking2" value="">
+              <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 style="color: black;" class="modal-title" id="exampleModalLabel">Enter mail address</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        
+        <input type="text" class="email" name="email" style="color: black;">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary">Send</button>
+      </div>
+    </div>
+  </div>
+</div>
+        </form>
+
       </td>
       <td>
         <%
@@ -118,7 +196,18 @@
           <input type="hidden" name="type" value="cancel">
            <%
         
-        if(status[i] == "CONFIRMED")
+        date_of_show2 = show_dates[i]
+        
+        date = date_of_show2.substring(0,2)
+        month = date_of_show2.substring(3,5)
+        year = date_of_show2.substring(6,10)
+
+        date_of_show2 = year+"-"+month+"-"+date
+        date_of_show2 = new Date(date_of_show2)
+        
+        
+
+        if(status[i] == "CONFIRMED" && date_of_show2 > today_date)
         {
           %>
             

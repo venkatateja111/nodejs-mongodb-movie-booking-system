@@ -76,7 +76,7 @@
                 
             $(".a1").show();
             var x = <%=sess.extra_orders.length%>;
-            var y = "<%=sess.status%>"
+            var y = "<%=sess.ticket_status%>"
             if(x > 0)
             $(".table").show();
 
@@ -121,7 +121,7 @@
         <img src="https://image.tmdb.org/t/p/w500/<%=sess.poster%>" style="height: 230px;"  alt="movie"  >
     </div>
     <div class="a3">
-        <h1><%=sess.title%> &nbsp &nbsp <span id="status_color" style="font-size: 30px;"><%=sess.status%></span></h1>
+        <h1><%=sess.title%> &nbsp &nbsp <span id="status_color" style="font-size: 30px;"><%=sess.ticket_status%></span></h1>
         
         <p><%=sess.date%> &nbsp <%=sess.time%></p>
         <p>Amount paid : &#x20b9; <%=sess.total_price%>  &nbsp &nbsp &nbsp No.of.Seats :  <%=sess.price%></p>   

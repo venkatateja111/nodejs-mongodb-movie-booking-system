@@ -5,6 +5,10 @@ const fs = require('fs');
 var MongoClient = require('mongodb').MongoClient;
  const axios = require('axios');
 const fetch = require('node-fetch');
+require('dotenv').config()
+const passport = require('passport');
+const cookieSession = require('cookie-session')
+require('./passport-setup');
 var async = require("async");
 const bodyParser = require('body-parser')
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
@@ -22,7 +26,17 @@ app.use(function(req, res, next) {
 
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+const isLoggedIn = (req, res, next) => {
+    if (req.user) {
+        next();
+    } else {
+        res.sendStatus(401);
+    }
+}
 
+// Initializes passport and passport sessions
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 var url = process.env.MONGODB_URI || "mongodb://localhost:27017/moviesdb";
@@ -657,13 +671,13 @@ catch (error) {
 
 
 
-app.get('/booking/:id', function(req, res) {
+app.get('/booking/:id?', function(req, res) {
 sess = req.session;
  
         (async () => {
 
           poster = sess.poster
-          id = sess.mid
+         
           title = sess.title
 
   MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
@@ -692,7 +706,7 @@ var result = dbo.collection("city_theatres").find({}).toArray(function(err,resul
 
           console.log(dict)
          
-          var dateerr
+          var dateerr,selected_city,selected_date
           
           
             dict = JSON.stringify(dict)
@@ -702,7 +716,7 @@ var result = dbo.collection("city_theatres").find({}).toArray(function(err,resul
           sess.cities = cities
           alert1 = "alert1"
           res.render('pages/booking',{
-  poster: poster, title: title, id: id,cities:cities,dict:dict,dateerr,reserv_seats,alert1,select_time: 0,theatre:-1,data: req.body
+  poster: poster, title: title, cities:cities,dict:dict,dateerr,reserv_seats,alert1,select_time: 0,theatre:-1,selected_city,selected_date,data: req.body
 }) 
 
           })
@@ -720,7 +734,7 @@ var result = dbo.collection("city_theatres").find({}).toArray(function(err,resul
 });
 
 
-app.post('/booking/:id', urlencodedParser , function(req, res) {
+app.post('/booking/:id?', urlencodedParser , function(req, res) {
 sess = req.session;
 var title = sess.title
 var seats = []
@@ -731,6 +745,7 @@ var dateerr
 var city = req.body.select_city
 sess.city = city
 var theatre = req.body.select_theatre
+sess.theatre_no = theatre
 var theatre1 = theatre
 theatre1 = dict[city][theatre]
 sess.theatre = theatre1
@@ -782,9 +797,9 @@ for(i=0;i<temp_seats.length;i++)
  reserv_seats = JSON.stringify(reserv_seats)
  console.log(reserv_seats)
  const alert1 = "returning values"
-
+ var selected_city,selected_date
             res.render('pages/booking',{
-  id: sess.mid,cities:sess.cities,dict:sess.dict,reserv_seats:reserv_seats,alert1,dateerr,theatre:theatre,select_time: time,data: req.body
+  cities:sess.cities,dict:sess.dict,reserv_seats:reserv_seats,alert1,dateerr,theatre:theatre,select_time: time,selected_city,selected_date,data: req.body
 }) 
              
 
@@ -890,6 +905,10 @@ else
 
 }
 
+else
+{
+  sess.extra_orders = ""
+}
 
 if(typeof orders_name !== "undefined")
 {
@@ -954,7 +973,7 @@ var sess  = req.session
   
   else
   {
-      sess.status = "CONFIRMED";
+      sess.ticket_status = "CONFIRMED";
       MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
                  
                   var dbo = db.db("moviesdb");
@@ -967,6 +986,7 @@ var sess  = req.session
                                  title: sess.title,
                                  city: sess.city,
                                  theatre: sess.theatre,
+                                 theatre_no: sess.theatre_no,
                                  poster: sess.poster,
                                  date: sess.date,
                                  time: sess.time,
@@ -1326,6 +1346,7 @@ app.get('/my_bookings', function(req, res) {
  {
       var date_of_booking = []
       var date_of_booking1 = []
+      var date_of_show = []
       var title2 = []
       var no_of_seats = []
       var total = []
@@ -1342,11 +1363,10 @@ app.get('/my_bookings', function(req, res) {
         no_of_seats.push(result[i].No_of_seats)
         total.push(result[i].Total_price_paid)
         status.push(result[i].status)
+        date_of_show.push(result[i].date)
       }
       
-      console.log(date_of_booking);
-      console.log(title2)
-      console.log(no_of_seats)
+     
 
        
        sess.extra_orders  = ""
@@ -1367,7 +1387,8 @@ app.get('/my_bookings', function(req, res) {
        sess.no_of_seats = no_of_seats
        sess.total = total
        sess.status = status
-res.render('pages/my_bookings',{date_of_booking,date_of_booking1,title2,no_of_seats,total,status,total_rows,download:"no"})
+       sess.date_of_show = date_of_show
+res.render('pages/my_bookings',{date_of_booking,date_of_booking1,title2,no_of_seats,total,status,total_rows,download:"no",mail_status:"no"})
 
 
  })
@@ -1405,7 +1426,7 @@ MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
                      sess.city =  result.city
                      sess.theatre =  result.theatre
                      sess.poster = result.poster
-                     sess.status = result.status
+                     sess.ticket_status = result.status
                       
                     
          
@@ -1419,7 +1440,9 @@ MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
                                       total: sess.total,
                                       total_rows: sess.total_rows,
                                       status: sess.status,
-                                      download:"ok"
+                                      download:"ok",
+                                      mail_status:"no",
+
                                     })
 
 
@@ -1485,6 +1508,60 @@ res.render('pages/mail.ejs',{download: "ok"});
 
 
 
+app.post('/mail2', urlencodedParser ,function(req, res) {
+
+var sess = req.session
+var mail = req.body.email
+var date_of_booking = req.body.date_of_booking2
+sess.to_mail = mail
+sess.page = "ok"
+
+MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
+                 
+                  var dbo = db.db("moviesdb");
+                    
+dbo.collection("users_transactions").findOne({email : sess.email, user: sess.Fullname, Date_of_booking: date_of_booking }).then(function(result)
+                    {
+                    
+                     sess.extra_orders = result.extra_orders_array
+                     sess.title =  result.title
+                     sess.date =  result.date
+                     sess.time =  result.time
+                     sess.total_price =  result.Total_price_paid
+                     sess.seats =  result.seats
+                     sess.price =  result.No_of_seats
+                     sess.city =  result.city
+                     sess.theatre =  result.theatre
+                     sess.poster = result.poster
+                     sess.ticket_status = result.status
+
+
+
+            res.render('pages/mail.ejs',{download: "ok"});
+                      
+                    
+         })
+
+
+})
+
+
+
+
+
+
+
+
+
+})
+
+
+
+
+
+
+
+
 
 app.post('/mailsender', urlencodedParser,  (req, res) => {
 	
@@ -1522,9 +1599,27 @@ app.post('/mailsender', urlencodedParser,  (req, res) => {
 transporter.sendMail(message, function(error, info){
   if (error) {
     console.log(error);
-  } else {
+  } 
+
+  else {
     console.log('Email sent: ' + info.response);
-    res.render('pages/success',{download:"ok", mail_status:"sent"})
+    if(sess.page == "ok"){
+      
+      sess.page = "no"
+      console.log(sess.status)
+      res.render('pages/my_bookings',{date_of_booking: sess.date_of_booking,
+                                      date_of_booking1: sess.date_of_booking1,
+                                      title2: sess.title2,
+                                      no_of_seats: sess.no_of_seats,
+                                      total: sess.total,
+                                      total_rows: sess.total_rows,
+                                      status: sess.status,
+                                      download:"no",
+                                      mail_status:"success"
+                                    })
+    }
+      else
+    res.render('pages/success',{download:"ok", mail_status:"success"})
      
   }
 });
@@ -1547,6 +1642,41 @@ res.render('pages/about_us');
 
 
 
+app.post('/update_ticket', urlencodedParser , function(req, res) {
+sess = req.session;
+date_of_booking = req.body.date_of_booking
+date_of_show2 = req.body.date_of_show2
+sess.view_details = "ok"
+
+MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
+                 
+                  var dbo = db.db("moviesdb");
+dbo.collection("users_transactions").findOne({email : sess.email, user: sess.Fullname, Date_of_booking: date_of_booking }).then(function(result)
+                    {
+
+                        sess.poster = result.poster
+                        sess.ticket_status = result.status
+                        sess.title = result.title
+                        sess.total_price = result.Total_price_paid
+                        sess.price = result.No_of_seats
+                        sess.date = result.date
+                        sess.time = result.time
+                        sess.seats = result.seats
+                        sess.city = result.city
+                        sess.theatre = result.theatre
+                        sess.extra_orders = result.extra_orders_array
+                        
+                        if(sess.extra_orders == null)
+                          sess.extra_orders = ""
+                        
+                        res.render('pages/ticket_details',{date_of_show2,date_of_booking})
+                        
+
+
+
+                        })
+
+  })
 
 
 
@@ -1561,6 +1691,143 @@ res.render('pages/about_us');
 
 
 
+
+
+
+
+
+
+
+
+})
+
+
+
+
+
+
+
+app.get('/update_ticket2/:date_of_booking', urlencodedParser , function(req, res) {
+sess = req.session;
+date_of_booking = req.params.date_of_booking
+
+
+MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
+                 
+                  var cities = []
+var theatres = []
+var dict = {}
+var dbo = db.db("moviesdb");
+
+dbo.collection("city_theatres").find({}).toArray(function(err,result){
+
+ 
+            for(i=0;i<result.length;i++)
+            {
+              cities.push(result[i].city)
+            }
+          
+          for(i=0;i<result.length;i++)
+          {
+               
+               dict[result[i].city] = result[i].theatres
+               
+
+          }
+
+         
+          var dateerr
+          
+          console.log(dict)
+            dict = JSON.stringify(dict)
+            sess.dict = dict
+            sess.cities = cities
+dbo.collection("users_transactions").findOne({email : sess.email, user: sess.Fullname, Date_of_booking: date_of_booking }).then(function(result)
+                    {
+
+
+                        var title = result.title
+                        sess.title = title
+                        var seats1 = result.seats
+                        var city = result.city
+                        var theatre = result.theatre
+                        var theatre_no = result.theatre_no
+                        var date = result.date
+                        var time = result.time
+                     
+                     console.log(seats1)
+                      
+                      dbo.collection("users_transactions").find({title: title, city: city, theatre: theatre, date: date, time:time,status:"CONFIRMED"}).toArray(function(err,result){
+  if (err) throw err;
+var reserv_seats = []
+          var temp_seats = []
+for(i=0;i<result.length;i++)
+{
+    if(result[i].seats !== null)
+    {
+      //console.log(result[i].seats)
+      temp_seats.push(result[i].seats)
+    }
+    
+}
+
+
+for(i=0;i<temp_seats.length;i++)
+    {
+      if(typeof temp_seats[i] == "string")
+        reserv_seats.push(temp_seats[i])
+      else
+      {
+        for(j=0;j<temp_seats[i].length;j++)
+      {
+        reserv_seats.push(temp_seats[i][j])
+      }
+      }
+      
+    }
+    
+    
+ reserv_seats = JSON.stringify(reserv_seats)
+ const alert1 = "returning values"
+ sess.reserv_seats = reserv_seats
+   
+             
+             res.render('pages/booking',{
+  cities:cities,dict:dict,reserv_seats:reserv_seats,alert1,dateerr,theatre:theatre_no,select_time: time,selected_city: city,selected_date:date,data: req.body
+})
+
+})
+                    })
+
+        })
+
+
+})
+
+
+})
+
+
+
+
+
+
+app.get('/google2', (req, res) => res.render('pages/index'))
+app.get('/failed', (req, res) => res.send('You Failed to log in!'))
+
+app.get('/good', isLoggedIn, (req, res) =>{
+    res.render("pages/profile",{name:req.user.displayName,pic:req.user.photos[0].value,email:req.user.emails[0].value})
+})
+
+
+app.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+app.get('/google/callback', passport.authenticate('google', { failureRedirect: '/failed' }),
+  function(req, res) {
+    
+    res.redirect('/good');
+  }
+);
 
 
 
