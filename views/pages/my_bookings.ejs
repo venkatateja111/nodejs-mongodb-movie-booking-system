@@ -100,7 +100,7 @@
      %>
     <tr>
       <th scope="row"><%=total_rows-i%></th>
-      <td><%=date_of_booking[i]%></td>
+      <td><%=date_of_booking[i].toLocaleString()%></td>
       <td><%=title2[i]%></td>
       <td><span>&#x20b9; </span><%=total[i]%></td>
 
@@ -196,7 +196,16 @@
           <input type="hidden" name="type" value="cancel">
            <%
         
-      
+        date_of_show2 = show_dates[i]
+        
+        date = date_of_show2.substring(0,2)
+        month = date_of_show2.substring(3,5)
+        year = date_of_show2.substring(6,10)
+
+        date_of_show2 = year+"-"+month+"-"+date
+        date_of_show2 = new Date(date_of_show2)
+        
+        
 
         if(status[i] == "CONFIRMED" && date_of_show2 > today_date)
         {
