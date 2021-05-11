@@ -1357,8 +1357,6 @@ app.get('/my_bookings', function(req, res) {
       {
         var str = result[i].Date_of_booking
         str = new Date(str).toISOString();
-        console.log(str)
-        str = new Date(str)
          console.log(str)
         date_of_booking.push(str)
         date_of_booking1.push(result[i].Date_of_booking)
