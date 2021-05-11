@@ -1356,7 +1356,8 @@ app.get('/my_bookings', function(req, res) {
       for(i=0;i<total_rows;i++)
       {
         var str = result[i].Date_of_booking
-        str = str.replace("GMT+0530 (India Standard Time)","")
+        str = new Date(str)
+        str = str.toLocaleString()
         date_of_booking.push(str)
         date_of_booking1.push(result[i].Date_of_booking)
         title2.push(result[i].title)
