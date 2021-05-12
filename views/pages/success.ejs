@@ -13,6 +13,21 @@
             alert("error sending message")
     }
 </script>
+
+<style type="text/css">
+    @media (max-width: 575.98px) { 
+    
+    a.btn-primary.rating1{
+        padding: 10px 15px!important;
+    }
+     
+     .wrapper{
+        margin-left: 15px!important;
+     }
+
+         } 
+</style>
+
 </head>      
 
 
@@ -43,9 +58,12 @@
 
                       
                             <div class="head-btn wow fadeInLeft animated">
-                                <a href="#" role="button" onclick="generatePDF()" class="btn-primary">Download Ticket</a>
+                                <a href="#" role="button" onclick="generatePDF()" class="btn-primary rating1">Download Ticket</a>
+                                <a href="#" role="button"  class="btn-primary rating1" data-toggle="modal" data-target="#form">Rate us</a>
                                 
                             </div>
+
+                            
 
 
 
@@ -77,6 +95,7 @@
 
 </div>
 
+<%- include('../pages/review_rating'); %>
 <%- include('../pages/download_ticket'); %>
 <%- include('../partials/footer'); %>
 </body>

@@ -1907,24 +1907,49 @@ MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
                  
                 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 })
 
 
 app.get('/failed', (req, res) => res.send('You Failed to log in!'))
 
+
+
+
+app.post('/rating_review', urlencodedParser , function(req, res) {
+
+var sess = req.session
+var rating = req.body.rating
+var review = req.body.review
+
+
+MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
+                 
+                  var dbo = db.db("moviesdb");
+
+                  var myobj = {
+
+                          user  : sess.Fullname,
+                          email : sess.email,
+                          rating : rating,
+                          review : review,
+                          date_of_review: Date()
+                          
+                        }
+                    
+
+
+                    dbo.collection("ratings_reviews").insertOne(myobj, function(err, res) {
+                             if (err) throw err;
+                             console.log("1 review & rating inserted into databse");
+                              
+                           });
+
+                    res.redirect('/success')
+                    
+                    })
+
+
+})
 
 
 

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Calibri:400,300,700">
+    <link href='https://use.fontawesome.com/releases/v5.7.2/css/all.css' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap">
+   <style>
+    
+     html,
+body {
+    height: 100%
+}
+
+
+.cross {
+    padding: 10px;
+    color: #d6312d;
+    cursor: pointer;
+    font-size: 23px
+}
+
+.cross i {
+    margin-top: -5px;
+    cursor: pointer
+}
+
+.comment-box {
+    padding: 5px
+}
+
+.comment-area textarea {
+    resize: none;
+    border: 1px solid #ff0000
+}
+
+.form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #ffffff;
+    outline: 0;
+    box-shadow: 0 0 0 1px rgb(255, 0, 0) !important
+}
+
+.send {
+    color: #fff;
+    background-color: #ff0000;
+    border-color: #ff0000
+}
+
+
+
+.wrapper {
+    margin-left: 85px;
+    max-width: 350px;
+    width: 90%;
+    border-radius: 10px;
+    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.wrapper .content {
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.wrapper .outer {
+    height: 135px;
+    width: 135px;
+    overflow: hidden;
+}
+
+.outer .emojis {
+    height: 500%;
+    display: flex;
+    flex-direction: column;
+}
+
+.outer .emojis li {
+    height: 20%;
+    width: 100%;
+    list-style: none;
+    transition: all 0.3s ease;
+}
+
+.outer li img {
+    height: 100%;
+    width: 100%;
+}
+
+#star-2:checked~.content .emojis .slideImg {
+    margin-top: -135px;
+}
+
+#star-3:checked~.content .emojis .slideImg {
+    margin-top: -270px;
+}
+
+#star-4:checked~.content .emojis .slideImg {
+    margin-top: -405px;
+}
+
+#star-5:checked~.content .emojis .slideImg {
+    margin-top: -540px;
+}
+
+.wrapper .stars {
+    margin-top: 30px;
+}
+
+.stars label {
+    font-size: 30px;
+    margin: 0 3px;
+    color: #ccc;
+}
+
+#star-1:hover~.content .stars .star-1,
+#star-1:checked~.content .stars .star-1,
+
+#star-2:hover~.content .stars .star-1,
+#star-2:hover~.content .stars .star-2,
+#star-2:checked~.content .stars .star-1,
+#star-2:checked~.content .stars .star-2,
+
+#star-3:hover~.content .stars .star-1,
+#star-3:hover~.content .stars .star-2,
+#star-3:hover~.content .stars .star-3,
+#star-3:checked~.content .stars .star-1,
+#star-3:checked~.content .stars .star-2,
+#star-3:checked~.content .stars .star-3,
+
+#star-4:hover~.content .stars .star-1,
+#star-4:hover~.content .stars .star-2,
+#star-4:hover~.content .stars .star-3,
+#star-4:hover~.content .stars .star-4,
+#star-4:checked~.content .stars .star-1,
+#star-4:checked~.content .stars .star-2,
+#star-4:checked~.content .stars .star-3,
+#star-4:checked~.content .stars .star-4,
+
+#star-5:hover~.content .stars .star-1,
+#star-5:hover~.content .stars .star-2,
+#star-5:hover~.content .stars .star-3,
+#star-5:hover~.content .stars .star-4,
+#star-5:hover~.content .stars .star-5,
+#star-5:checked~.content .stars .star-1,
+#star-5:checked~.content .stars .star-2,
+#star-5:checked~.content .stars .star-3,
+#star-5:checked~.content .stars .star-4,
+#star-5:checked~.content .stars .star-5 {
+    color: #fd4;
+}
+
+.wrapper .footer {
+    border-top: 1px solid #ccc;
+    background: #f2f2f2;
+    width: 100%;
+    height: 55px;
+    padding: 0 20px;
+    border-radius: 0 0 10px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.footer span {
+    font-size: 17px;
+    font-weight: 400;
+}
+
+.footer .text::before {
+    content: "Rate your experience";
+}
+
+.footer .numb::before {
+    content: "0 out of 5";
+}
+
+#star-1:checked~.footer .text::before {
+    content: "I just hate it";
+}
+
+#star-1:checked~.footer .numb::before {
+    content: "1 out of 5";
+}
+
+#star-2:checked~.footer .text::before {
+    content: "I don't like it";
+}
+
+#star-2:checked~.footer .numb::before {
+    content: "2 out of 5";
+}
+
+#star-3:checked~.footer .text::before {
+    content: "This is awesome";
+}
+
+#star-3:checked~.footer .numb::before {
+    content: "3 out of 5";
+}
+
+#star-4:checked~.footer .text::before {
+    content: "I just like it";
+}
+
+#star-4:checked~.footer .numb::before {
+    content: "4 out of 5";
+}
+
+#star-5:checked~.footer .text::before {
+    content: "I just love it";
+}
+
+#star-5:checked~.footer .numb::before {
+    content: "5 out of 5";
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+    </style>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+     $("label.fas.fa-star").click(function(){
+        var x = $(this).attr("value1");
+        $("input.rating_value").val(x);
+
+     })
+     
+
+ });
+</script>
+    
+    
+</head>
+<body>
+
+<div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+                  <div class="text-right cross"> <i class="fa fa-times mr-2" data-dismiss="modal" aria-label="Close"></i> </div>
+               
+                <div class="wrapper text-center">
+    <input type="radio" name="rate" id="star-1">
+    <input type="radio" name="rate" id="star-2">
+    <input type="radio" name="rate" id="star-3">
+    <input type="radio" name="rate" id="star-4">
+    <input type="radio" name="rate" id="star-5">
+    <div class="content">
+        <div class="outer">
+            <div class="emojis">
+                <li class="slideImg"><img src="https://i.imgur.com/07k6I7v.jpg" alt=""></li>
+                <li><img src="https://i.imgur.com/lRxhp6u.jpg" alt=""></li>
+                <li><img src="https://i.imgur.com/RUiZaOo.png" alt=""></li>
+                <li><img src="https://i.imgur.com/JCmWQZj.jpg" alt=""></li>
+                <li><img src="https://i.imgur.com/jpBXBvY.jpg" alt=""></li>
+            </div>
+        </div>
+        <div class="stars">
+            <label for="star-1" class="star-1 fas fa-star" value1="1 out of 5"></label>
+            <label for="star-2" class="star-2 fas fa-star" value1="2 out of 5"></label>
+            <label for="star-3" class="star-3 fas fa-star" value1="3 out of 5"></label>
+            <label for="star-4" class="star-4 fas fa-star" value1="4 out of 5"></label>
+            <label for="star-5" class="star-5 fas fa-star" value1="5 out of 5"></label>
+        </div>
+    </div>
+    <div class="footer">
+        <span class="text"></span>
+        <span class="numb"></span>
+    </div>
+</div>
+            
+
+
+            
+                <div class="comment-box text-center">
+                    <h4>Add a comment</h4>
+    <form action="/rating_review" method="POST">
+        <input type="hidden" name="rating" class="rating_value" value="">
+    <div class="comment-area"> <textarea class="form-control" name="review" placeholder="what is your view?" rows="4"></textarea> </div>
+    <div class="text-center mt-4"> <button type="submit" class="btn btn-success send px-5">Send message <i class="fa fa-long-arrow-right ml-1"></i></button>
+    </form>
+                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+</body>
+</html>
