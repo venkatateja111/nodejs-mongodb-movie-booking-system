@@ -173,11 +173,9 @@ app.get('/', function(req, res) {
     var sess = req.session;
         (async () => {
           try {
-            var rest = await axios.get('https://api.themoviedb.org/3/movie/now_playing?api_key=b195f787962173c1ee91ddc986379adc&region=IN&page=1')
+            var rest = await axios.get('https://api.themoviedb.org/3/movie/now_playing?api_key='+process.env.api_key+'&region=IN&page=1')
     rest = rest.data
-   //const rest1 = await fetch('https://api.themoviedb.org/3/movie/794362?api_key=b195f787962173c1ee91ddc986379adc&append_to_response=credits').then(response => response.json());
-   //const rest2 = await fetch('http://api.themoviedb.org/3/movie/794362/casts?api_key=b195f787962173c1ee91ddc986379adc').then(response => response.json());
-    var upcoming = await axios.get('https://api.themoviedb.org/3/movie/upcoming?api_key=b195f787962173c1ee91ddc986379adc&region=IN&page=1');
+    var upcoming = await axios.get('https://api.themoviedb.org/3/movie/upcoming?api_key='+process.env.api_key+'&region=IN&page=1');
     upcoming = upcoming.data   
 
    
@@ -291,16 +289,16 @@ app.get('/page/:type2/:id', function(req, res) {
     
       if(type2 == "up")
            {
-           var rest = await axios('https://api.themoviedb.org/3/movie/upcoming?api_key=b195f787962173c1ee91ddc986379adc&region=IN'+'&page='+pno);
+           var rest = await axios('https://api.themoviedb.org/3/movie/upcoming?api_key='+process.env.api_key+'&region=IN'+'&page='+pno);
            rest = rest.data
             }
             else if(type2 == "now"){
-           var rest = await axios('https://api.themoviedb.org/3/movie/now_playing?api_key=b195f787962173c1ee91ddc986379adc&region=IN'+'&page='+pno);
+           var rest = await axios('https://api.themoviedb.org/3/movie/now_playing?api_key='+process.env.api_key+'&region=IN'+'&page='+pno);
               rest = rest.data
               }
               else{
                    movie = sess.movie
-                   var rest = await axios('https://api.themoviedb.org/3/search/movie?api_key=b195f787962173c1ee91ddc986379adc&query='+movie+'&page='+pno);
+                   var rest = await axios('https://api.themoviedb.org/3/search/movie?api_key='+process.env.api_key+'&query='+movie+'&page='+pno);
                 rest = rest.data
               }
     
@@ -585,14 +583,14 @@ app.get('/movie/:type/:id', function(req, res) {
     sess.type = type
     console.log(mid)
     sess.mid = mid
-    var rest = await axios.get('https://api.themoviedb.org/3/movie/'+mid+'?api_key=b195f787962173c1ee91ddc986379adc&append_to_response=credits');
+    var rest = await axios.get('https://api.themoviedb.org/3/movie/'+mid+'?api_key='+process.env.api_key+'&append_to_response=credits');
     rest = rest.data
     var imdb_id = rest.imdb_id
     var original_language = rest.original_language
     sess.original_language = original_language
     var rest2 = await axios.get('http://www.omdbapi.com/?i='+imdb_id+'&apikey=efa3894f');
     var imdb_rating = rest2.data.imdbRating
-    var rest3 = await axios.get('https://api.themoviedb.org/3/movie/'+mid+'/videos?api_key=b195f787962173c1ee91ddc986379adc&language='+original_language)
+    var rest3 = await axios.get('https://api.themoviedb.org/3/movie/'+mid+'/videos?api_key='+process.env.api_key+'&language='+original_language)
     rest3 = rest3.data
     
    if( rest3.results.length !== 0  ){
@@ -1594,16 +1592,16 @@ app.post('/mailsender', urlencodedParser,  (req, res) => {
 
   let transporter = nodemailer.createTransport({
   service: 'gmail',
-  auth: {
-    user: 'MovieTicks12@gmail.com',
-    pass: 'MovieTicks123@'
-  }
+  auth:{
+        user:  process.env.EMAIL_USER,
+        pass : process.env.EMAIL_PASS
+    }
 });
 
 
 
   let message = {
-        from: 'movieticks@gmail.com',
+        from: 'movieticks12@gmail.com',
         to: mail,
         subject: 'Recent Booking of your movie ticket',
         //text: 'That was easy!',
