@@ -49,13 +49,13 @@
     }
 }
 
-.header-blue .navbar .navbar-collapse span .login {
+.header-blue .navbar .navbar-collapse span .login, .header-blue .navbar .navbar-collapse span .about_us{
     color: #fff;
     margin-right: .5rem;
     text-decoration: none
 }
 
-.header-blue .navbar .navbar-collapse span .login:hover {
+.header-blue .navbar .navbar-collapse span .login:hover , .header-blue .navbar .navbar-collapse span .about_us:hover {
     color: #fff
 }
 
