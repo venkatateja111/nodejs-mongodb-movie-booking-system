@@ -493,6 +493,9 @@ app.post('/signup_check', urlencodedParser ,  [
                              if (err) throw err;
                              console.log("1 user inserted into databse");
                              sess.user_id = myobj._id
+
+                             sess.subscribe_status = "no"
+                          
                              
                            });
                            res.redirect(url1)
@@ -552,7 +555,18 @@ app.post('/login_submit', urlencodedParser , function(req, res) {
                           sess.phone = result.phone;
                           var x = result._id
                           sess.user_id = x;
-                          
+
+                          if(result.subscribe_status == undefined)
+                            sess.subscribe_status = "no"
+                          else
+                          {
+                            sess.subscribe_status = "yes"
+                            sess.subscribed_email = result.subscribed_email
+                          }
+
+
+
+                          console.log(sess.subscribe_status)
                           res.redirect(url1)
                       }
 
@@ -1695,7 +1709,7 @@ transporter.sendMail(message, function(error, info){
 app.get('/about_us', function(req, res) {
 
 
-res.render('pages/about_us');
+res.render('pages/about_us',{subscribe: "no",unsubscribe:"no",contact:"no"});
 
 })
 
@@ -1908,7 +1922,7 @@ MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
                      {
                      	
                      	email=""
-                     	sess.email=email
+                     	
 
                      }
                         
@@ -1928,6 +1942,8 @@ MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
                               };
 
                           sess.phone = "";
+                        
+                          sess.subscribe_status = "no"
                          
                           var x;
                            dbo.collection("users").insertOne(myobj, function(err, res) {
@@ -1937,7 +1953,17 @@ MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
                            
                     }
                     else
-                     	sess.phone = result.phone
+                    {
+                      
+                      if(result.subscribe_status == undefined)
+                            sess.subscribe_status = "no"
+                          else
+                          {
+                            sess.subscribe_status = "yes"
+                            sess.subscribed_email = result.subscribed_email
+                          }
+                    }
+                     	
 
 
                      dbo.collection("users").findOne({id: req.user.id}).then(function(result)
@@ -1945,6 +1971,8 @@ MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
                          x = result._id
                         
                          sess.user_id = x
+                         sess.phone = result.phone
+                         sess.email=result.email
                           
                          res.redirect(url1)
 
@@ -2003,6 +2031,135 @@ MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
 
 
 })
+
+
+
+app.post('/subscribe', urlencodedParser , function(req, res) {
+ sess = req.session;
+ 
+ var subscribed_email = req.body.subscribed_email
+
+ MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
+                 
+                  var dbo = db.db("moviesdb");
+
+ dbo.collection("users").findOneAndUpdate({ "_id" : ObjectId(String(sess.user_id)) }, {$set: {"subscribe_status" : "yes", "subscribed_email": subscribed_email}}).then(function(result)
+                  
+                {
+                   sess.subscribe_status = "yes"
+                   sess.subscribed_email = subscribed_email
+                   console.log("subscribed successfully")
+                   res.render('pages/about_us',{subscribe: "yes",unsubscribe:"no",contact:"no"});
+                })
+
+
+
+})
+
+
+})
+
+
+
+
+app.post('/unsubscribe', urlencodedParser , function(req, res) {
+ sess = req.session;
+ 
+ var subscribed_email = sess.subscribed_email
+
+ MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
+                 
+                  var dbo = db.db("moviesdb");
+                  
+
+ dbo.collection("users").findOneAndUpdate({ "_id" : ObjectId(String(sess.user_id)) }, {$unset: {"subscribe_status" : "yes", "subscribed_email": subscribed_email}}).then(function(result)
+                  
+                {
+                   sess.subscribe_status = "no"
+                   sess.subscribed_email = null
+                   console.log("unsubscribed successfully")
+                   res.render('pages/about_us',{subscribe: "no",unsubscribe:"yes",contact:"no"});
+                })
+
+
+
+})
+
+
+})
+
+
+
+
+
+app.post('/contact_us', urlencodedParser , function(req, res) {
+ sess = req.session;
+ 
+
+ var contact_name = req.body.contact_name
+ var contact_email = req.body.contact_email
+ var contact_comments = req.body.contact_comments
+
+ MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
+                 
+                  var dbo = db.db("moviesdb");
+
+                   var myobj = {
+                   
+                   user_id: sess.user_id,
+                   Fullname: sess.Fullname,
+                   contact_name: contact_name,
+                   contact_email: contact_email,
+                   contact_comments: contact_comments
+
+
+
+                   };
+
+
+        dbo.collection("contact_us").insertOne(myobj, function(err, res) {
+                             if (err) throw err;
+                             console.log("1 contact inserted into databse");
+                            
+                                                     
+                             
+                           });
+        res.render('pages/about_us',{subscribe: "no",unsubscribe:"no",contact:"yes"});
+                
+
+
+
+})
+
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

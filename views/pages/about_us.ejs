@@ -5,6 +5,37 @@
   <title>Bootstrap Theme Company Page</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+
+var x = "<%=subscribe%>"
+var y = "<%=unsubscribe%>"
+var z = "<%=contact%>" 
+
+     if(x == "yes")
+{
+     $('#btnTrigger').click();
+     $('.thank-you-pop p').text('You have subscribed successfully')
+    }    
+
+
+    if(y == "yes")
+{
+     $('#btnTrigger').click();
+     $('.thank-you-pop p').text('You have Unsubscribed successfully')
+    }  
+
+
+
+    if(z == "yes")
+{
+     $('#btnTrigger').click();
+     $('.thank-you-pop p').text('Your contact details submitted successfully')
+    }  
+
+     })
+   </script>
 </head>
 <body>
 
@@ -141,6 +172,74 @@
     -webkit-animation-duration: 1s;
     visibility: visible;
   }
+
+
+    .thank-you-pop{
+    width:100%;
+    padding:20px;
+    text-align:center;
+}
+.thank-you-pop img{
+    width:76px;
+    height:auto;
+    margin:0 auto;
+    display:block;
+    margin-bottom:25px;
+}
+
+.thank-you-pop h1{
+    font-size: 42px;
+    margin-bottom: 25px;
+    color:#5C5C5C;
+}
+.thank-you-pop p{
+    font-size: 20px;
+    margin-bottom: 27px;
+    color:#5C5C5C;
+}
+.thank-you-pop h3.cupon-pop{
+    font-size: 25px;
+    margin-bottom: 40px;
+    color:#222;
+    display:inline-block;
+    text-align:center;
+    padding:10px 20px;
+    border:2px dashed #222;
+    clear:both;
+    font-weight:normal;
+}
+.thank-you-pop h3.cupon-pop span{
+    color:#03A9F4;
+}
+.thank-you-pop a{
+    display: inline-block;
+    margin: 0 auto;
+    padding: 9px 20px;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 14px;
+    background-color: #8BC34A;
+    border-radius: 17px;
+}
+.thank-you-pop a i{
+    margin-right:5px;
+    color:#fff;
+}
+#ignismyModal .modal-header{
+    border:0px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
   @keyframes slide {
     0% {
       opacity: 0;
@@ -180,14 +279,62 @@
 <div class="jumbotron text-center">
   <h1>MOVIETICKS</h1> 
   <p>tickets on fingertips</p> 
-  <form>
+  <%
+
+   if(sess.user_id)
+   {
+    
+    if(sess.subscribe_status == "no")
+    {
+      %>
+    <form action="/subscribe" method="POST">
     <div class="input-group">
-      <input type="email" class="form-control"  placeholder="Email Address" required>
+      <input type="email" class="form-control" name="subscribed_email" placeholder="Email Address" required>
       <div class="input-group-btn">
-        <button type="button" class="btn btn-danger">Subscribe</button>
+        <button type="submit" class="btn btn-danger">Subscribe</button>
       </div>
     </div>
-  </form>
+   </form>
+    <%
+    
+    }
+
+    else
+    {
+      %>
+      <form action="/unsubscribe" method="POST">
+    <div class="input-group">
+      <input type="email" class="form-control" name="subscribed_email" placeholder="Email Address" value="<%=sess.subscribed_email%>" disabled>
+      <div class="input-group-btn">
+        <button type="submit" class="btn btn-danger">Unsubscribe</button>
+      </div>
+    </div>
+   </form>
+    <%
+    
+    }
+    
+   }
+  
+  else
+  {
+    %>
+
+ <div class="jumbotron">
+  <h1 class="display-4">Hello <%=sess.Fullname%>!</h1>
+  <p class="lead">Please login to subscribe regarding future updates for this website. Thank You</p>
+  
+  
+</div>
+
+    <%
+  }
+
+
+
+
+  %>
+ 
 </div>
 </div>
 <!-- Container (About Section) -->
@@ -275,28 +422,66 @@
       <p><span class="glyphicon glyphicon-envelope"></span> mm98955@gmail.com</p>
     </div>
     <div class="col-sm-7 slideanim">
+      <form action="/contact_us" method="POST">
       <div class="row">
         <div class="col-sm-6 form-group">
-          <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
+          <input class="form-control" id="name" name="contact_name" placeholder="Name" type="text" required>
         </div>
         <div class="col-sm-6 form-group">
-          <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
+          <input class="form-control" id="email" name="contact_email" placeholder="Email" type="email" required>
         </div>
       </div>
-      <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
+      <textarea class="form-control" id="comments" name="contact_comments" placeholder="Comment" rows="5"></textarea><br>
       <div class="row">
         <div class="col-sm-12 form-group">
           <button class="btn btn-primary pull-right" type="submit">Send</button>
         </div>
       </div>
+    </form>
     </div>
   </div>
 </div>
 
 
 </div>
-<!-- Image of location/map -->
-<img src="/w3images/map.jpg" class="w3-image w3-greyscale-min" style="width:100%">
+
+
+
+
+<div class="container">
+    <div class="row">
+        <a class="btn btn-primary" id="btnTrigger" data-toggle="modal" href="#ignismyModal" style="display: none;">open Popup</a>
+        <div class="modal fade" id="ignismyModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label=""><span>×</span></button>
+                     </div>
+                    
+                    <div class="modal-body">
+                       
+                        <div class="thank-you-pop">
+                            <img src="http://goactionstations.co.uk/wp-content/uploads/2017/03/Green-Round-Tick.png" alt="">
+                            <h1>Success!</h1>
+                            <p></p>
+                        </div>
+                         
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
 
 
 
