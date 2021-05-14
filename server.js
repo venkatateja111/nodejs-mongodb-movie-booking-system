@@ -1230,6 +1230,7 @@ app.post('/settings_script', urlencodedParser ,  [
                  	     const alert2 = "email already exist"
                           res.render('pages/settings',{
                                  msg:'Email already exists',
+                                 email: sess.email,
                                  alert2,
                                  data: req.body,
                                  pro_updated: "false", pass_updated: "false",
