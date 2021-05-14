@@ -258,7 +258,7 @@
                 <form action="/settings_script2" method="POST">
                   <div class="form-group">
                     <label for="username">Email</label>
-                    <input type="text" class="form-control" name="email" placeholder="Enter your email" value="<% if(typeof alert != 'undefined' || typeof alert2 != 'undefined') {%><%=data.email%><%}else{%><%=email%><%} %>" readonly >
+                    <input type="text" class="form-control" name="email" placeholder="Enter your email" value="<%=sess.email%>" readonly >
                     <small  class="form-text text-muted">After deleting your account all your information will be lost.</small>
                   </div>
                   <hr>
