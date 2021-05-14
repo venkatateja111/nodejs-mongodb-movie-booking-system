@@ -3,6 +3,7 @@ var nodemailer = require('nodemailer');
 var app = express();
 const fs = require('fs');
 var MongoClient = require('mongodb').MongoClient;
+var ObjectId = require('mongodb').ObjectId;
  const axios = require('axios');
 const fetch = require('node-fetch');
 require('dotenv').config()
@@ -475,8 +476,9 @@ app.post('/signup_check', urlencodedParser ,  [
                         }
                         else
                           var url1 = "/"
-                        var myobj = {  
-                                 Fullname: req.body.Fullname, 
+                        var myobj = { 
+
+                        	     Fullname: req.body.Fullname, 
                                  email: req.body.email, 
                                  password: req.body.password, 
                                  phone: req.body.phone 
@@ -490,7 +492,8 @@ app.post('/signup_check', urlencodedParser ,  [
                            dbo.collection("users").insertOne(myobj, function(err, res) {
                              if (err) throw err;
                              console.log("1 user inserted into databse");
-                              db.close();
+                             sess.user_id = myobj._id
+                             
                            });
                            res.redirect(url1)
                     }
@@ -535,8 +538,11 @@ app.post('/login_submit', urlencodedParser , function(req, res) {
                   if (err) throw err;
                   var dbo = db.db("moviesdb");
                      
-                     var result = dbo.collection("users").findOne({email: email, password: password }).then(function(result)
-                {
+                  
+
+                     
+              dbo.collection("users").findOne({email: email, password: password },function(err,result)
+              {
                      if( result !== null )
                      {
                           console.log('user successfully logged in')
@@ -544,6 +550,8 @@ app.post('/login_submit', urlencodedParser , function(req, res) {
                           sess.email = email;
                           sess.Fullname = result.Fullname;
                           sess.phone = result.phone;
+                          var x = result._id
+                          sess.user_id = x;
                           
                           res.redirect(url1)
                       }
@@ -1000,6 +1008,7 @@ var sess  = req.session
                         var myobj = {  
                                  user  : sess.Fullname,
                                  email : sess.email,
+                                 user_id: sess.user_id,
                                  No_of_seats : sess.price,
                                  seats : sess.seats, 
                                  title: sess.title,
@@ -1021,6 +1030,7 @@ var sess  = req.session
 
                           user  : sess.Fullname,
                           email : sess.email,
+                          user_id: sess.user_id,
                           title : sess.title,
                           Total_price_paid: sess.total_price,
                           status: "CONFIRMED",
@@ -1070,8 +1080,11 @@ MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
                  
                   var dbo = db.db("moviesdb");
 
-                    dbo.collection("billing").find({email: sess.email,user: sess.Fullname}).toArray(function(err,result)
+                    dbo.collection("billing").find({user_id: sess.user_id}).toArray(function(err,result)
                 {
+
+                   
+
 
                    bill_total_rows = result.length  
                    
@@ -1092,6 +1105,21 @@ MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
     sess.bill_status = bill_status
     sess.bill_transaction_date = bill_transaction_date
     sess.bill_total_rows = bill_total_rows
+    
+
+    dbo.collection("users").findOne({_id: ObjectId(String(sess.user_id))}).then(function(result)
+                {
+
+               console.log(result.passsword)
+
+                	if(result.password == "")
+                   	old_pass = "no"
+                   else
+                   	old_pass = "yes"
+
+                   sess.old_pass = old_pass
+
+                   console.log(old_pass, sess.old_pass)
 
 
 res.render('pages/settings',{
@@ -1101,6 +1129,7 @@ res.render('pages/settings',{
        pro_updated: "false", pass_updated: "false",
        msg4:""
      })
+})
 
                 })
 
@@ -1159,25 +1188,17 @@ app.post('/settings_script', urlencodedParser ,  [
                  
                   var dbo = db.db("moviesdb");
                     
-                    dbo.collection("users").findOne({email: req.body.email}).then(function(result)
+                    dbo.collection("users").findOne({_id:  ObjectId(String(sess.user_id))}).then(function(result)
                 {
-                     if( result !== null && sess.email !== req.body.email )
-                     {
-                          
-                          const alert2 = "email not exist"
-                          res.render('pages/settings',{
-                                 msg:'Email already exists',
-                                 alert2,
-                                 data: req.body,
-                                 pro_updated: "false", pass_updated: "false",
-                                 msg4:""
-                            })
-                     }
+                	//console.log(result)
+                	dbo.collection("users").findOne({email: email}).then(function(result)
+                {
+                	
                    
-                   else
+                   if(result == null || (result !== null && sess.email == email))
                    {
 
-                   var result = dbo.collection("users").findOneAndUpdate({ "email" : sess.email }, {$set: {"Fullname" : req.body.Fullname, "email": req.body.email,"phone":phone}}).then(function(result)
+                   var result = dbo.collection("users").findOneAndUpdate({ "_id" : ObjectId(String(sess.user_id)) }, {$set: {"Fullname" : req.body.Fullname, "email": req.body.email,"phone":phone}}).then(function(result)
                   
                 {
                   
@@ -1202,6 +1223,23 @@ app.post('/settings_script', urlencodedParser ,  [
                 });
 
                  }
+
+                 else
+                 {
+
+                 	     const alert2 = "email already exist"
+                          res.render('pages/settings',{
+                                 msg:'Email already exists',
+                                 alert2,
+                                 data: req.body,
+                                 pro_updated: "false", pass_updated: "false",
+                                 msg4:""
+                            })
+
+                 }
+
+
+             })
               })
 
                 });
@@ -1225,8 +1263,8 @@ var email = sess.email
  MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
                  
                   var dbo = db.db("moviesdb");
- dbo.collection("users").deleteOne( { "email" : email} );
- dbo.collection("users_transactions").deleteMany( { "email" : email} );
+ dbo.collection("users").deleteOne( { "_id" : ObjectId(String(sess.user_id))} );
+ dbo.collection("users_transactions").deleteMany( { "user_id" : sess.user_id} );
 console.log(sess.Fullname+" has deleted account successfully");
 res.redirect('/logout')
 
@@ -1267,18 +1305,19 @@ else
                  
                   var dbo = db.db("moviesdb");
 
-if(pass1!== undefined && pass2 !== undefined && pass3!== undefined)
+if( pass2 !== undefined && pass3!== undefined)
 {
 
-                    var result = dbo.collection("users").findOne({email: sess.email}).then(function(result)
+                    var result = dbo.collection("users").findOne({_id: ObjectId(String(sess.user_id))}).then(function(result)
                 {
                           if(pass1 == result.password)
                           {
 
                            if(pass2 == pass3){
 
-                              var result = dbo.collection("users").findOneAndUpdate({ "email" : sess.email }, {$set: {"password" : pass2}}).then(function(result)
+                              var result = dbo.collection("users").findOneAndUpdate({ _id: ObjectId(String(sess.user_id)) }, {$set: {"password" : pass2}}).then(function(result)
                 {
+                	sess.old_pass = "yes"
                     console.log("password changed successfully")
                      db.close()
                      res.render('pages/settings',{
@@ -1360,7 +1399,7 @@ app.get('/my_bookings', function(req, res) {
                  
  var dbo = db.db("moviesdb");
 
- var result = dbo.collection("users_transactions").find({user:sess.Fullname,email:sess.email}).toArray(function(err,result)
+ var result = dbo.collection("users_transactions").find({user_id:sess.user_id}).toArray(function(err,result)
 
  {
       var date_of_booking = []
@@ -1432,7 +1471,7 @@ MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
                     if(type == "download")
                     {
                       console.log(sess.email,sess.Fullname)
-                    dbo.collection("users_transactions").findOne({email : sess.email, user: sess.Fullname, Date_of_booking: date_of_booking }).then(function(result)
+                    dbo.collection("users_transactions").findOne({user_id: sess.user_id, Date_of_booking: date_of_booking }).then(function(result)
                     {
                     
                      sess.extra_orders = result.extra_orders_array
@@ -1469,10 +1508,10 @@ MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
 }
 else
 {
-       dbo.collection("users_transactions").findOneAndUpdate({ email : sess.email, user: sess.Fullname, Date_of_booking: date_of_booking}, {$set: {"status" : "CANCELLED"}}).then(function(result)
+       dbo.collection("users_transactions").findOneAndUpdate({ user_id: sess.user_id, Date_of_booking: date_of_booking}, {$set: {"status" : "CANCELLED"}}).then(function(result)
                 {})
 
-       dbo.collection("users_transactions").findOne({email : sess.email, user: sess.Fullname, Date_of_booking: date_of_booking }).then(function(result)
+       dbo.collection("users_transactions").findOne({user_id: sess.user_id, Date_of_booking: date_of_booking }).then(function(result)
                     {
                       console.log(result.Total_price_paid)
 
@@ -1480,6 +1519,7 @@ else
 
                           user  : sess.Fullname,
                           email : sess.email,
+                          user_id: sess.user_id,
                           title : result.title,
                           Total_price_paid: result.Total_price_paid,
                           status: "CANCELLED",
@@ -1539,7 +1579,7 @@ MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
                  
                   var dbo = db.db("moviesdb");
                     
-dbo.collection("users_transactions").findOne({email : sess.email, user: sess.Fullname, Date_of_booking: date_of_booking }).then(function(result)
+dbo.collection("users_transactions").findOne({user_id: sess.user_id, Date_of_booking: date_of_booking }).then(function(result)
                     {
                     
                      sess.extra_orders = result.extra_orders_array
@@ -1601,7 +1641,7 @@ app.post('/mailsender', urlencodedParser,  (req, res) => {
 
 
   let message = {
-        from: 'movieticks12@gmail.com',
+        from: 'movieticks@gmail.com',
         to: mail,
         subject: 'Recent Booking of your movie ticket',
         //text: 'That was easy!',
@@ -1670,7 +1710,7 @@ sess.view_details = "ok"
 MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
                  
                   var dbo = db.db("moviesdb");
-dbo.collection("users_transactions").findOne({email : sess.email, user: sess.Fullname, Date_of_booking: date_of_booking }).then(function(result)
+dbo.collection("users_transactions").findOne({user_id: sess.user_id, Date_of_booking: date_of_booking }).then(function(result)
                     {
 
                         sess.poster = result.poster
@@ -1761,7 +1801,7 @@ dbo.collection("city_theatres").find({}).toArray(function(err,result){
             dict = JSON.stringify(dict)
             sess.dict = dict
             sess.cities = cities
-dbo.collection("users_transactions").findOne({email : sess.email, user: sess.Fullname, Date_of_booking: date_of_booking }).then(function(result)
+dbo.collection("users_transactions").findOne({user_id: sess.user_id, Date_of_booking: date_of_booking }).then(function(result)
                     {
 
 
@@ -1838,6 +1878,14 @@ app.get('/facebook/callback', passport.authenticate('facebook', { successRedirec
 
 app.get('/good', isLoggedIn, (req, res) =>{
  
+ sess = req.session;
+  if(sess.mid)
+  {
+  var  url1 = "/booking/"+sess.mid
+  }
+  else
+    var url1 = "/"
+                        
 console.log(req.user)
 MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
                   if (err) throw err;
@@ -1846,26 +1894,19 @@ MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
                    dbo.collection("users").findOne({provider: req.user.provider, id: req.user.id}).then(function(result)
                 {
                      
-                        sess = req.session;
-                        if(sess.mid)
-                        {
-                        var  url1 = "/booking/"+sess.mid
-                        }
-                        else
-                          var url1 = "/"
                         
-                        
-                     
-                     sess.Fullname = req.user.displayName;
+                        sess.Fullname = req.user.displayName;
                      
                      if(req.user.provider == "google"){
                      	email = req.user.emails[0].value
                      	sess.email = email
+
                      }
                      	
                      else if(req.user.provider == "facebook")
                      {
-                     	email="email"
+                     	
+                     	email=""
                      	sess.email=email
 
                      }
@@ -1887,18 +1928,31 @@ MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
 
                           sess.phone = "";
                          
-
+                          var x;
                            dbo.collection("users").insertOne(myobj, function(err, res) {
-                             if (err) throw err;
-                             console.log("1 user inserted into databse");
-                              db.close();
+                             if (err) throw err;                        
+                              
                            }); 
+                           
                     }
                     else
-                    	sess.phone = result.phone
+                     	sess.phone = result.phone
 
-                    res.redirect(url1)
-                     
+
+                     dbo.collection("users").findOne({id: req.user.id}).then(function(result)
+                {
+                         x = result._id
+                        
+                         sess.user_id = x
+                          
+                         res.redirect(url1)
+
+                })
+
+                    
+                
+
+
                 });
 
 
@@ -1909,7 +1963,6 @@ MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
 
 
 app.get('/failed', (req, res) => res.send('You Failed to log in!'))
-
 
 
 
@@ -1928,6 +1981,7 @@ MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
 
                           user  : sess.Fullname,
                           email : sess.email,
+                          user_id: sess.user_id,
                           rating : rating,
                           review : review,
                           date_of_review: Date()
@@ -1948,7 +2002,6 @@ MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
 
 
 })
-
 
 
 

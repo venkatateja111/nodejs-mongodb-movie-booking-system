@@ -125,6 +125,11 @@
 </style>
 <script type="text/javascript">
     $(document).ready(function () {
+
+     var old_pass = "<%=sess.old_pass%>";
+
+      if(old_pass == "no")
+        $(".pass1").hide();
      
 
     $('[data-toggle="tooltip"]').tooltip();   
@@ -290,7 +295,7 @@
                 <form action="/settings_script3" method="POST">
                   <div class="form-group">
                     <label class="d-block">Change Password</label>
-                    <input type="text" name="pass1" class="form-control"      placeholder="Enter your old password" >
+                    <input type="text" name="pass1" class="form-control pass1"      placeholder="Enter your old password" >
                     <br>
                     <input type="text" name="pass2" class="form-control mt-1" placeholder="New password" required data-toggle="tooltip" data-container="body" data-placement="right" title="
           At least one special character 
