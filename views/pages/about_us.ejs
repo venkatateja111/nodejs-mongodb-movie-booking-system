@@ -321,7 +321,7 @@ var z = "<%=contact%>"
     %>
 
  <div class="jumbotron">
-  <h1 class="display-4">Hello <%=sess.Fullname%>!</h1>
+  <h1 class="display-4">Hello user!</h1>
   <p class="lead">Please login to subscribe regarding future updates for this website. Thank You</p>
   
   
@@ -422,7 +422,13 @@ var z = "<%=contact%>"
       <p><span class="glyphicon glyphicon-envelope"></span> mm98955@gmail.com</p>
     </div>
     <div class="col-sm-7 slideanim">
-      <form action="/contact_us" method="POST">
+    	<%
+    	if(sess.user_id)
+    	{
+    		%>
+
+
+            <form action="/contact_us" method="POST">
       <div class="row">
         <div class="col-sm-6 form-group">
           <input class="form-control" id="name" name="contact_name" placeholder="Name" type="text" required>
@@ -438,6 +444,24 @@ var z = "<%=contact%>"
         </div>
       </div>
     </form>
+
+    		<%
+    	}
+    	else
+    	{
+    		%>
+
+
+    		<div class="jumbotron">
+              <h1 class="display-4" style="color: black;">Hello user!</h1>
+              <p class="lead" style="color: black;">Please login regarding any issues with this website. Thank You</p>
+  
+  
+            </div>
+      
+    <%
+}
+    %>
     </div>
   </div>
 </div>
