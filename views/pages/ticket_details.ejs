@@ -39,6 +39,64 @@
 
 
          }  
+
+         .thank-you-pop{
+    width:100%;
+    padding:20px;
+    text-align:center;
+}
+.thank-you-pop img{
+    width:76px;
+    height:auto;
+    margin:0 auto;
+    display:block;
+    margin-bottom:25px;
+}
+
+.thank-you-pop h1{
+    font-size: 42px;
+    margin-bottom: 25px;
+    color:#5C5C5C;
+}
+.thank-you-pop p{
+    font-size: 20px;
+    margin-bottom: 27px;
+    color:#5C5C5C;
+}
+.thank-you-pop h3.cupon-pop{
+    font-size: 25px;
+    margin-bottom: 40px;
+    color:#222;
+    display:inline-block;
+    text-align:center;
+    padding:10px 20px;
+    border:2px dashed #222;
+    clear:both;
+    font-weight:normal;
+}
+.thank-you-pop h3.cupon-pop span{
+    color:#03A9F4;
+}
+.thank-you-pop a{
+    display: inline-block;
+    margin: 0 auto;
+    padding: 9px 20px;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 14px;
+    background-color: #8BC34A;
+    border-radius: 17px;
+}
+.thank-you-pop a i{
+    margin-right:5px;
+    color:#fff;
+}
+#ignismyModal .modal-header{
+    border:0px;
+}
+th,td{
+    text-align: center!important;
+  }
         
     </style>
 
@@ -61,8 +119,24 @@
                  $('#status_color').css("color","red");
 
 
-             
+             $('.sub_remove').submit(function (e) {
+        
+        if (!$('.form-check-input').is(':checked')) {
+            
+            e.preventDefault();
+        }
+    })
+      
+       $( "input.form-check-input" ).click(function() {
 
+      if ($('input.form-check-input').is(':checked') > 0 )
+        $('button.sub_remove').prop('disabled', false);
+
+      else
+        $('button.sub_remove').prop('disabled', true);
+
+
+        })
         
 
 
@@ -90,11 +164,14 @@
         <h1><%=sess.title%> &nbsp &nbsp <span id="status_color" style="font-size: 30px;"><%=sess.ticket_status%></span></h1>
         
         <p><%=sess.date%> &nbsp <%=sess.time%></p>
-        <p>Amount paid : &#x20b9; <%=sess.total_price%>  &nbsp &nbsp &nbsp <span id="no_seats" >No.of.Seats :  <%=sess.price%></span></p>   
+        <p>Amount paid : &#x20b9; <%=sess.total_price%>  &nbsp &nbsp &nbsp <span id="no_seats" >No.of.Seats :  <%=sess.price%></span>  </p>   
         <p><%=sess.theatre%> &nbsp, &nbsp &nbsp <%=sess.city%></p>
-        <h2>Seats: <%=sess.seats%></h2>
+        <h2>Seats: <%=sess.seats%></h2></span>
+
+        
 
 
+        
         <%
          
          
@@ -108,7 +185,7 @@
 
             %>
 
-            <h2 class="add_remove" style="display: none;"><span><a role="button" href="/update_ticket2/<%=date_of_booking%>" class="btn btn-primary">Add/Remove Seats</a></span><span class="foods"><button class="btn btn-primary">Add/Remove Foods</button></span></h2>
+            <h2 class="add_remove" style="display: none;"><span><a role="button" type="button"  class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="color: white;">Remove Seats</a></span></h2>
 
 
 
@@ -121,6 +198,74 @@
   </div>
   
 </div>
+
+
+<div class="row" style=" background-color: whitesmoke;">
+	<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th scope="col">No.</th>
+      <th scope="col">Seat</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+  	<%
+
+  	for(i=0; i< sess.price; i++)
+  	{
+  		%>
+
+  		<tr>
+  			<td><%=i+1%></td>
+  			<td><%=sess.seats[i]%></td>
+
+  				<%
+  				 x = "cancelled"
+  				for(j=0;j< arr3.length ; j++)
+  				{
+  					if(sess.seats[i] == arr3[j])
+  					  x = "confirmed"
+  				}
+
+  				if(x == "confirmed")
+  				{
+  					%>
+
+  					<td style="color: green;">CONFIRMED</td>
+
+
+
+  					<%
+  				}
+
+  				else
+  				{
+
+  					%>
+
+  					<td style="color: red;">CANCELLED</td>
+
+  					<%
+  			    }
+
+
+  				%>
+
+  		</tr>
+
+
+
+
+  		<%
+  	}
+  	%>
+</tbody>
+</table> 
+</div>
+
+
+
 <div class="row"  style=" background-color: whitesmoke;">
         <br><br>
     </div>
@@ -132,6 +277,7 @@
       <th scope="col">Item</th>
       <th scope="col">Quantity</th>
       <th scope="col">Price</th>
+      
     </tr>
   </thead>
   <tbody>
@@ -152,6 +298,7 @@ for(i=0;i< count ;i++)
       <td><%=arr[j]%></td>
       <td><%=arr[j+1]%></td>
       <td>&#x20b9; <%=arr[j+2]%></td>
+      
     </tr>
 
     <%
@@ -162,8 +309,112 @@ for(i=0;i< count ;i++)
 </div>
 </div>
 
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+       <form action="/seats_del" method="POST">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Select Seats to remove</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <table class="table table-bordered table-hover">
+            <thead>
+              <tr>
+
+                <th scope="col">Select</th>
+                <th scope="col">seats</th>
+                <th scope="col">Price</th>
+                
+              </tr>
+            </thead>
+            <tbody>
+          
+          <%
+
+          if(sess.cancelled_seats !== undefined)
+                {
+                      console.log("not undefined")
+                      for(i=0; i< arr3.length ; i++)
+                      {
+                        %>
+                        <tr>
+                         <td>
+                
+                  <div class="form-check form-check-inline">
+
+                    <input class="form-check-input" name="seats_del" type="checkbox" id="inlineCheckbox1" value="<%=arr3[i]%>">
+                    
+                  </div>
+               
+                  
+                </td>
+                    <td><%=arr3[i]%></td>
+                    <td>Rs. 250</td>
+                  </tr>
+                        <%
+                        
+
+                      }
+
+                    
+                
+              }
+          
+           
+          else
+          {
+           
+            for(i=0; i< sess.price; i++)
+            {
+              %>
+
+              <tr>
+                  
+                <td>
+                
+                  <div class="form-check form-check-inline">
+
+                    <input class="form-check-input" name="seats_del" type="checkbox" id="inlineCheckbox1" value="<%=sess.seats[i]%>">
+                    
+                  </div>
+               
+                  
+                </td>
+
+                <td><%=sess.seats[i]%></td>
+                <td>Rs. 250</td>
+
+                
+              </tr>
+          
+
+              <%
+            }
+
+          }
+             
+             
+
+           %>
 
 
+            </tbody>
+        </table>
+        
+      </div>
+      <input type="hidden" name="date_of_booking" value="<%=date_of_booking%>">
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary sub_remove" disabled>Remove Seats</button>
+      </div>
+       </form>
+    </div>
+  </div>
+</div>
 
 
 
