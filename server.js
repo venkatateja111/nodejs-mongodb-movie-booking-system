@@ -1116,7 +1116,7 @@ dbo.collection("users_transactions").findOne({user_id: sess.user_id, Date_of_boo
                    }
                     
                          arr3 = sess.arr3
-                         res.render('pages/success',{download: "ok",mail_status:"no",arrlen,arr3})
+                         res.render('pages/success',{download: "ok",mail_status:"no",arr3})
 
                     })
 
