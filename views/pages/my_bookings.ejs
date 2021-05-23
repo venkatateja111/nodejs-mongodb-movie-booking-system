@@ -32,7 +32,6 @@
 .table-responsive {
     max-height:560px;
 }
-
 </style>
 
 
@@ -44,14 +43,12 @@
     $('.jumbotron').show();
     $('.table-responsive').hide();
   }
-
  
   
   $('button.btn.btn-primary.mail').click(function() {
   var x = $(this).parent().find("input.date_of_booking").val();
    $("input.date_of_booking2").val(x);
   });
-
   generatePDF();
 });
 </script>
@@ -93,9 +90,7 @@
         today_date = new Date()
         show_dates = sess.date_of_show
         
-
      for(i=total_rows-1;i>=0;i--)
-
      {
      %>
     <tr>
@@ -103,8 +98,6 @@
       <td><%=date_of_booking[i]%></td>
       <td><%=title2[i]%></td>
       <td><span>&#x20b9; </span><%=total[i]%></td>
-
-
       <td>
         <%
         date_of_show2 = show_dates[i]
@@ -112,7 +105,6 @@
         date = date_of_show2.substring(0,2)
         month = date_of_show2.substring(3,5)
         year = date_of_show2.substring(6,10)
-
         date_of_show2 = year+"-"+month+"-"+date
         date_of_show2 = new Date(date_of_show2)
        %>
@@ -125,15 +117,12 @@
          <%
          %>
       </td>
-
-
-
       <td>
         <form action="/ticket" method="POST">
            <input type="hidden" name="date_of_booking" value="<%=date_of_booking1[i]%>">
            <input type="hidden" name="type" value="download">
           <button type="submit"  class="btn btn-primary download">
-            <img src="img/download.svg" alt="download">
+            <img src="img/download.svg" alt="Kiwi standing on oval">
               </button>
         </form>
             
@@ -157,7 +146,6 @@
         </button>
       </div>
       <div class="modal-body">
-
         
         <input type="text" class="email" name="email" style="color: black;">
       </div>
@@ -169,7 +157,6 @@
   </div>
 </div>
         </form>
-
       </td>
       <td>
         <%
@@ -186,7 +173,6 @@
             <button type="button" class="btn btn-danger"><%=status[i]%></button>
           <%
         }
-
         %>
         
       </td>
@@ -201,20 +187,15 @@
         date = date_of_show2.substring(0,2)
         month = date_of_show2.substring(3,5)
         year = date_of_show2.substring(6,10)
-
         date_of_show2 = year+"-"+month+"-"+date
         date_of_show2 = new Date(date_of_show2)
         
         
-
         if(status[i] == "CONFIRMED" && date_of_show2 > today_date)
         {
           %>
             
 <button type="submit" class="btn btn-danger">Cancel</button>
-
-
-
           <%
         }
         else
@@ -223,7 +204,6 @@
             ----------
           <%
         }
-
         %>
         
         </form>
@@ -232,7 +212,6 @@
     
     <%
      }
-
     %>
       
   </tbody>

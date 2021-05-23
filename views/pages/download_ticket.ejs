@@ -5,8 +5,8 @@
     <style type="text/css">
         .a1{
             
-            width: 750px;
-            margin: 50px;
+            width: 700px;
+            margin: 70px;
             border: 2px solid black;
             
         }
@@ -28,7 +28,6 @@
         }
         .a1 table{
             margin: 15px;
-
         }
         .a1 table th
         {
@@ -43,22 +42,17 @@
             vertical-align: bottom;
             border-bottom: black;
         }
-
         .a1 .table-bordered td, .a1 .table-bordered th {
             border: 1px solid black;
         }
-
         .a1 .table td {
             font-weight: 700;
         }
-
         .a1 .table th {
             font-weight: 700;
             background: none;
         }
-
        
-
     </style>
     <script src="/html2canvas.min.js"></script>
     <script type="text/javascript" src="/jspdf.debug.js"></script>
@@ -75,22 +69,16 @@
             var y = "<%=sess.ticket_status%>"
             if(x > 0)
             $(".table").show();
-
             if(y == "CONFIRMED")
                 $('#status_color').css("color","green");
             else
                  $('#status_color').css("color","red");
-
             var imgData;
             html2canvas($("#a1"),{
-
                 useCORS:true,
                 onrendered:function(canvas){
-
                     imgData = canvas.toDataURL('image/png');
-
                     var doc = new jsPDF('p','pt','a4');
-
                     doc.addImage(imgData,'PNG',10,10);
                     doc.save('ticket.pdf');
                     //window.open(doc);
@@ -99,11 +87,8 @@
                     window.location.replace("/my_bookings");
                 }
             })
-
         }
-
         }
-
        
     </script>
 </head>
@@ -114,7 +99,7 @@
         <img src="https://image.tmdb.org/t/p/w500/<%=sess.poster%>" style="height: 230px;"  alt="movie"  >
     </div>
     <div class="a3">
-        <h2><%=sess.title%> &nbsp &nbsp <span id="status_color" style="font-size: 30px;"><%=sess.ticket_status%></span></h2>
+        <h1><%=sess.title%> &nbsp &nbsp <span id="status_color" style="font-size: 30px;"><%=sess.ticket_status%></span></h1>
         
         <p><%=sess.date%> &nbsp <%=sess.time%></p>
         <p>Amount paid : &#x20b9; <%=sess.total_price%>  &nbsp &nbsp &nbsp No.of.Seats :  <%=sess.price%></p>   
@@ -123,98 +108,6 @@
 
     </div>
 </div>
-
-
-
-<div class="row">
-    <table class="table table-bordered table-hover">
-  <thead>
-    <tr>
-      <th scope="col">No.</th>
-      <th scope="col">Seat</th>
-      <th scope="col">Status</th>
-    </tr>
-  </thead>
-  <tbody>
-    <%
-
-    for(i=0; i< sess.price; i++)
-    {
-        %>
-
-        <tr>
-            <td><%=i+1%></td>
-            <td><%=sess.seats[i]%></td>
-
-                <%
-                console.log("inside file" , sess.arr3)
-                 x = "cancelled"
-                for(j=0;j< sess.arr3.length ; j++)
-                {
-                    if(sess.seats[i] == sess.arr3[j])
-                      x = "confirmed"
-                }
-
-                if(x == "confirmed")
-                {
-                    %>
-
-                    <td style="color: green;">CONFIRMED</td>
-
-
-
-                    <%
-                }
-
-                else
-                {
-
-                    %>
-
-                    <td style="color: red;">CANCELLED</td>
-
-                    <%
-                }
-
-
-                %>
-
-        </tr>
-
-
-
-
-        <%
-    }
-    %>
-</tbody>
-</table> 
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="row">
     <table class="table table-bordered table-hover" style="display: none;">
   <thead>
@@ -234,9 +127,7 @@ arr = []
 arr = sess.extra_orders
 for(i=0;i< count ;i++)
 {
-
     j = i*3
-
     %>
      <tr>
       <th scope="row"><%=i+1%></th>
@@ -244,7 +135,6 @@ for(i=0;i< count ;i++)
       <td><%=arr[j+1]%></td>
       <td>&#x20b9; <%=arr[j+2]%></td>
     </tr>
-
     <%
 }
  %>
