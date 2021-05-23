@@ -1084,6 +1084,7 @@ dbo.collection("users_transactions").findOne({user_id: sess.user_id, Date_of_boo
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                       
 =======
 >>>>>>> parent of 453f578 (update)
@@ -1092,6 +1093,9 @@ dbo.collection("users_transactions").findOne({user_id: sess.user_id, Date_of_boo
 >>>>>>> parent of 7796967 (update)
 =======
 >>>>>>> parent of 86e9c53 (update)
+=======
+                      var arr;
+>>>>>>> parent of 053117f (update)
                       //seats2 = seats
 
                      if(result !== null)
@@ -1106,6 +1110,7 @@ dbo.collection("users_transactions").findOne({user_id: sess.user_id, Date_of_boo
                      
                       
                       sess.cancelled_seats = seats2
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
                       arr = result.seats.filter(d => !sess.cancelled_seats.includes(d))
@@ -1142,6 +1147,15 @@ dbo.collection("users_transactions").findOne({user_id: sess.user_id, Date_of_boo
                     res.render('pages/success',{download: "ok",mail_status:"no"})
                          
 >>>>>>> parent of 7796967 (update)
+=======
+                     var arr = result.seats.filter(d => !sess.cancelled_seats.includes(d))
+                     sess.arr3 = arr
+                     console.log("inside sess.arr3",arr,sess.arr3)
+                   }
+                    
+                    console.log("outside sess.arr3",arr,sess.arr3)
+                         res.render('pages/success',{download: "ok",mail_status:"no",arr3})
+>>>>>>> parent of 053117f (update)
 
                     })
 
