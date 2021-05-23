@@ -1094,6 +1094,7 @@ dbo.collection("users_transactions").findOne({user_id: sess.user_id, Date_of_boo
                
                       seats2 = []
                       arr3 = []
+                      sess.arr3 = arr3
                       //seats2 = seats
 
                      if(result !== null)

@@ -149,14 +149,9 @@
                 <%
                  x = "cancelled"
 
-                 ticket = sess.arr3
+                
 
-                 if(ticket == undefined)
-                   tlength = 1
-                 else
-                   tlength = ticket.length
-
-                for(j=0;j< tlength ; j++)
+                for(j=0;j< sess.arr3.length ; j++)
                 {
                     if(sess.seats[i] == sess.arr3[j])
                       x = "confirmed"
