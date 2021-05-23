@@ -808,25 +808,17 @@ MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
                   var result = dbo.collection("users_transactions").find({title: title, city: city, theatre: theatre1, date: date, time:time,status:"CONFIRMED"}).toArray(function(err,result){
   if (err) throw err;
 var reserv_seats = []
-var cancelled_seats2 = []
-var temp_seats = []
+          var temp_seats = []
 for(i=0;i<result.length;i++)
 {
     if(result[i].seats !== null)
     {
-      console.log(result[i].seats)
+      //console.log(result[i].seats)
       temp_seats.push(result[i].seats)
-
-    }
-
-    if(result[i].cancelled_seats !== undefined)
-    {
-       cancelled_seats2 = result[i].cancelled_seats
     }
     
 }
 
-console.log("Booking seats",cancelled_seats2)
 
 for(i=0;i<temp_seats.length;i++)
     {
@@ -841,9 +833,6 @@ for(i=0;i<temp_seats.length;i++)
       }
       
     }
-
-
-     reserv_seats = reserv_seats.filter(d => !cancelled_seats2.includes(d))
     
     
  reserv_seats = JSON.stringify(reserv_seats)
@@ -1026,9 +1015,6 @@ var sess  = req.session
   else
   {
       sess.ticket_status = "CONFIRMED";
-      date_of_booking = new Date()
-      date_of_booking = date_of_booking.toString();
-
       MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
                  
                   var dbo = db.db("moviesdb");
@@ -1082,6 +1068,7 @@ var sess  = req.session
                              if (err) throw err;
                               db.close();
                            });
+<<<<<<< HEAD
 
 
                      console.log(date_of_booking)
@@ -1186,9 +1173,11 @@ dbo.collection("users_transactions").findOne({user_id: sess.user_id, Date_of_boo
                     })
 
 })
+=======
+>>>>>>> parent of d3151c9 (update)
                            
                     
-
+res.redirect('/success')
                      
              
 
@@ -1204,7 +1193,6 @@ app.get('/settings', function(req, res) {
 var sess = req.session;
 var bill_title = []
 var bill_Total_price_paid = []
-var bill_Total_price_refund = []
 var bill_status = []
 var bill_transaction_date = []
 var bill_total_rows
@@ -1215,14 +1203,16 @@ MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
 
                     dbo.collection("billing").find({user_id: sess.user_id}).toArray(function(err,result)
                 {
-          
+
+                   
+
+
                    bill_total_rows = result.length  
                    
                    for(i=0;i< bill_total_rows;i++)
                    {
 
                         bill_title.push(result[i].title)
-                        bill_Total_price_refund.push(result[i].Total_price_refund)
                         bill_Total_price_paid.push(result[i].Total_price_paid)
                         bill_status.push(result[i].status)
                         var str = result[i].transaction_date
@@ -1232,7 +1222,6 @@ MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
                    }
                     sess = req.session;
                     sess.bill_title = bill_title
-                    sess.bill_Total_price_refund = bill_Total_price_refund
     sess.bill_Total_price_paid = bill_Total_price_paid
     sess.bill_status = bill_status
     sess.bill_transaction_date = bill_transaction_date
@@ -1540,7 +1529,6 @@ app.get('/my_bookings', function(req, res) {
       var date_of_show = []
       var title2 = []
       var no_of_seats = []
-      var cancelled_seats = []
       var total = []
       var status = []
       var total_rows = result.length
@@ -1556,7 +1544,6 @@ app.get('/my_bookings', function(req, res) {
         total.push(result[i].Total_price_paid)
         status.push(result[i].status)
         date_of_show.push(result[i].date)
-        cancelled_seats.push(result[i].cancelled_seats)
       }
       
      
@@ -1581,7 +1568,6 @@ app.get('/my_bookings', function(req, res) {
        sess.total = total
        sess.status = status
        sess.date_of_show = date_of_show
-       sess.cancelled_seats = cancelled_seats
 res.render('pages/my_bookings',{date_of_booking,date_of_booking1,title2,no_of_seats,total,status,total_rows,download:"no",mail_status:"no"})
 
 
@@ -1621,27 +1607,6 @@ MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
                      sess.theatre =  result.theatre
                      sess.poster = result.poster
                      sess.ticket_status = result.status
-
-                     seats2 = []
-                      arr3 = []
-                      //seats2 = seats
-                      if(result.cancelled_seats !== undefined){
-                                              
-                          for(i=0;i< result.cancelled_seats.length;i++)
-                            seats2.push(result.cancelled_seats[i])
-                        
-                      }
-                      
-                     
-                      
-                      sess.cancelled_seats = seats2
-                     var arr3 = result.seats.filter(d => !sess.cancelled_seats.includes(d))
-                     sess.arr3 = arr3
-
-
-
-
-                     sess.cancelled_seats = result.cancelled_seats
                       
                     
          
@@ -1665,25 +1630,8 @@ MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
 }
 else
 {
-       dbo.collection("users_transactions").findOne({ user_id: sess.user_id, Date_of_booking: date_of_booking}).then(function(result)
-                {
-                 // console.log(result)
-                  No_of_seats_cancelled = result.No_of_seats
-                  cancelled_seats = result.seats
-                   
-                   dbo.collection("users_transactions").findOneAndUpdate({ user_id: sess.user_id, Date_of_booking: date_of_booking}, {$set: 
-                    {
-                      "status" : "CANCELLED",
-                      "No_of_seats_cancelled" : No_of_seats_cancelled,
-                      "cancelled_seats" : cancelled_seats
-                    }
-               }).then(function(result){ })
-                  
-                  
-                    
-
-                  
-                })
+       dbo.collection("users_transactions").findOneAndUpdate({ user_id: sess.user_id, Date_of_booking: date_of_booking}, {$set: {"status" : "CANCELLED"}}).then(function(result)
+                {})
 
        dbo.collection("users_transactions").findOne({user_id: sess.user_id, Date_of_booking: date_of_booking }).then(function(result)
                     {
@@ -1696,7 +1644,6 @@ else
                           user_id: sess.user_id,
                           title : result.title,
                           Total_price_paid: result.Total_price_paid,
-                          Total_price_refund: result.Total_price_paid,
                           status: "CANCELLED",
                           transaction_date: Date()
 
@@ -1768,22 +1715,6 @@ dbo.collection("users_transactions").findOne({user_id: sess.user_id, Date_of_boo
                      sess.theatre =  result.theatre
                      sess.poster = result.poster
                      sess.ticket_status = result.status
-
-                     seats2 = []
-                      arr3 = []
-                      //seats2 = seats
-                      if(result.cancelled_seats !== undefined){
-                                              
-                          for(i=0;i< result.cancelled_seats.length;i++)
-                            seats2.push(result.cancelled_seats[i])
-                        
-                      }
-                      
-                     
-                      
-                      sess.cancelled_seats = seats2
-                     var arr3 = result.seats.filter(d => !sess.cancelled_seats.includes(d))
-                     sess.arr3 = arr3
 
 
 
@@ -1895,9 +1826,7 @@ res.render('pages/about_us',{subscribe: "no",unsubscribe:"no",contact:"no"});
 app.post('/update_ticket', urlencodedParser , function(req, res) {
 sess = req.session;
 date_of_booking = req.body.date_of_booking
-sess.date_of_booking = date_of_booking
 date_of_show2 = req.body.date_of_show2
-sess.date_of_show2 = date_of_show2
 sess.view_details = "ok"
 
 MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
@@ -1905,30 +1834,6 @@ MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
                   var dbo = db.db("moviesdb");
 dbo.collection("users_transactions").findOne({user_id: sess.user_id, Date_of_booking: date_of_booking }).then(function(result)
                     {
-
-                      sess.extra_orders = result.extra_orders
-                      sess.extra_orders_array = result.extra_orders_array
-                      sess.Total_price_paid = result.Total_price_paid
-
-
-                      seats2 = []
-                      arr3 = []
-                      //seats2 = seats
-                      if(result.cancelled_seats !== undefined){
-                                              
-                          for(i=0;i< result.cancelled_seats.length;i++)
-                            seats2.push(result.cancelled_seats[i])
-                        
-                      }
-                      
-                     
-                      
-                      sess.cancelled_seats = seats2
-                     var arr3 = result.seats.filter(d => !sess.cancelled_seats.includes(d))
-                    
-                    
-
-
 
                         sess.poster = result.poster
                         sess.ticket_status = result.status
@@ -1941,12 +1846,11 @@ dbo.collection("users_transactions").findOne({user_id: sess.user_id, Date_of_boo
                         sess.city = result.city
                         sess.theatre = result.theatre
                         sess.extra_orders = result.extra_orders_array
-                        sess.cancelled_seats = result.cancelled_seats
-                        console.log(sess.cancelled_seats)
+                        
                         if(sess.extra_orders == null)
                           sess.extra_orders = ""
-                       
-                        res.render('pages/ticket_details',{date_of_show2,date_of_booking,arr3})
+                        
+                        res.render('pages/ticket_details',{date_of_show2,date_of_booking})
                         
 
 
@@ -1954,6 +1858,27 @@ dbo.collection("users_transactions").findOne({user_id: sess.user_id, Date_of_boo
                         })
 
   })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 })
 
@@ -1963,7 +1888,105 @@ dbo.collection("users_transactions").findOne({user_id: sess.user_id, Date_of_boo
 
 
 
+app.get('/update_ticket2/:date_of_booking', urlencodedParser , function(req, res) {
+sess = req.session;
+date_of_booking = req.params.date_of_booking
 
+
+MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
+                 
+                  var cities = []
+var theatres = []
+var dict = {}
+var dbo = db.db("moviesdb");
+
+dbo.collection("city_theatres").find({}).toArray(function(err,result){
+
+ 
+            for(i=0;i<result.length;i++)
+            {
+              cities.push(result[i].city)
+            }
+          
+          for(i=0;i<result.length;i++)
+          {
+               
+               dict[result[i].city] = result[i].theatres
+               
+
+          }
+
+         
+          var dateerr
+          
+          console.log(dict)
+            dict = JSON.stringify(dict)
+            sess.dict = dict
+            sess.cities = cities
+dbo.collection("users_transactions").findOne({user_id: sess.user_id, Date_of_booking: date_of_booking }).then(function(result)
+                    {
+
+
+                        var title = result.title
+                        sess.title = title
+                        var seats1 = result.seats
+                        var city = result.city
+                        var theatre = result.theatre
+                        var theatre_no = result.theatre_no
+                        var date = result.date
+                        var time = result.time
+                     
+                     console.log(seats1)
+                      
+                      dbo.collection("users_transactions").find({title: title, city: city, theatre: theatre, date: date, time:time,status:"CONFIRMED"}).toArray(function(err,result){
+  if (err) throw err;
+var reserv_seats = []
+          var temp_seats = []
+for(i=0;i<result.length;i++)
+{
+    if(result[i].seats !== null)
+    {
+      //console.log(result[i].seats)
+      temp_seats.push(result[i].seats)
+    }
+    
+}
+
+
+for(i=0;i<temp_seats.length;i++)
+    {
+      if(typeof temp_seats[i] == "string")
+        reserv_seats.push(temp_seats[i])
+      else
+      {
+        for(j=0;j<temp_seats[i].length;j++)
+      {
+        reserv_seats.push(temp_seats[i][j])
+      }
+      }
+      
+    }
+    
+    
+ reserv_seats = JSON.stringify(reserv_seats)
+ const alert1 = "returning values"
+ sess.reserv_seats = reserv_seats
+   
+             
+             res.render('pages/booking',{
+  cities:cities,dict:dict,reserv_seats:reserv_seats,alert1,dateerr,theatre:theatre_no,select_time: time,selected_city: city,selected_date:date,data: req.body
+})
+
+})
+                    })
+
+        })
+
+
+})
+
+
+})
 
 
 
@@ -2224,6 +2247,7 @@ app.post('/contact_us', urlencodedParser , function(req, res) {
 
 
 
+<<<<<<< HEAD
 app.post('/seats_del', urlencodedParser , function(req, res) {
 
 var sess = req.session
@@ -2399,9 +2423,11 @@ dbo.collection("users_transactions").findOne({user_id: sess.user_id , Date_of_bo
 
 
 
+=======
+>>>>>>> parent of 5baf935 (Revert "update")
 
-app.get('/foods2', urlencodedParser , function(req, res) {
 
+<<<<<<< HEAD
 var sess = req.session;
 
 var Total_price_paid = sess.Total_price_paid
@@ -2425,6 +2451,8 @@ console.log(effective_price)
                       Total_price_refund = sess.total_price - ((No_of_seats_cancelled2)*250)
                       sess.ticket_status = "CANCELLED"
                       seats2 = result.seats
+=======
+>>>>>>> parent of 5baf935 (Revert "update")
 
                     }
 
@@ -2527,8 +2555,6 @@ console.log(No_of_seats_cancelled)
 console.log(sess.extra_orders_array)
 console.log(effective_price)
 
-
-})
 
 })
 
