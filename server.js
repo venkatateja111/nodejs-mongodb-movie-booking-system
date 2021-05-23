@@ -1094,7 +1094,6 @@ dbo.collection("users_transactions").findOne({user_id: sess.user_id, Date_of_boo
                
                       seats2 = []
                       arr3 = []
-                      sess.arr3 = arr3
                       //seats2 = seats
 
                      if(result !== null)
@@ -1111,10 +1110,9 @@ dbo.collection("users_transactions").findOne({user_id: sess.user_id, Date_of_boo
                       sess.cancelled_seats = seats2
                      var arr3 = result.seats.filter(d => !sess.cancelled_seats.includes(d))
                      sess.arr3 = arr3
-
                    }
-                    res.render('pages/success',{download: "ok",mail_status:"no"})
-                         
+                    
+                         res.render('pages/success',{download: "ok",mail_status:"no",arr3})
 
                     })
 
