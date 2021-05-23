@@ -169,6 +169,7 @@
 >>>>>>> parent of ad18c00 (Update download_ticket.ejs)
 
 
+<<<<<<< HEAD
 
                 for(j=0;j< array2.length ; j++)
 =======
@@ -178,6 +179,16 @@
                  ticket = sess.arr3
                 for(j=0;j< ticket.length ; j++)
 >>>>>>> parent of d60db8d (Update download_ticket.ejs)
+=======
+                 ticket = sess.arr3
+
+                 if(ticket == undefined)
+                   tlength = 1
+                 else
+                   tlength = ticket.length
+
+                for(j=0;j< tlength ; j++)
+>>>>>>> parent of 453f578 (update)
                 {
                     if(sess.seats[i] == array2[j])
                       x = "confirmed"

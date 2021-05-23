@@ -1081,7 +1081,10 @@ dbo.collection("users_transactions").findOne({user_id: sess.user_id, Date_of_boo
                
                       seats2 = []
                       arr3 = []
+<<<<<<< HEAD
                       
+=======
+>>>>>>> parent of 453f578 (update)
                       //seats2 = seats
 
                      if(result !== null)
