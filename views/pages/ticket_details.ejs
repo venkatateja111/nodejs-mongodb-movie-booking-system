@@ -81,20 +81,7 @@
         <h2>Seats: <%=sess.seats%></h2>
 
 
-        <%
-         
-         
-         today_date = new Date()
-         date_of_show2 = new Date(date_of_show2)
-         console.log(date_of_show2,today_date)
-        if(date_of_show2 > today_date)
-        {
-            %>
-            <h2 class="add_remove" style="display: none;"><span><a role="button" href="/update_ticket2/<%=date_of_booking%>" class="btn btn-primary">Add/Remove Seats</a></span><span class="foods"><button class="btn btn-primary">Add/Remove Foods</button></span></h2>
-            <%
-        }
         
-       %>
   </div>
   
 </div>
