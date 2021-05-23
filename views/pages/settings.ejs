@@ -365,10 +365,20 @@
         else if(sess.bill_status[i] == "CANCELLED")
         {
 
-         %>
-         <td>Refund for movie <%=sess.bill_title[i]%></td>
-         <td style="color: green; font-size: small;"><span>+ &nbsp &nbsp</span><span>&#x20b9; </span><%=sess.bill_Total_price_paid[i]%></td>
-         <%
+         %><td>Refund for movie <%=sess.bill_title[i]%></td> <%
+        
+         if(sess.bill_Total_price_refund[i] == undefined )
+         {
+           %><td style="color: green; font-size: small;"><span>+ &nbsp &nbsp</span><span>&#x20b9; </span><%=sess.bill_Total_price_paid[i]%></td><%
+         }
+         
+         else
+         {
+           %><td style="color: green; font-size: small;"><span>+ &nbsp &nbsp</span><span>&#x20b9; </span><%=sess.bill_Total_price_refund[i]%></td><%
+         }
+         
+         
+        
         
         }
 

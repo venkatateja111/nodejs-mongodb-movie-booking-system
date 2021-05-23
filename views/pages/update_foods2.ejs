@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            
+<title>MovieTicks - Foods & Drinks page </title>
+
+</head>
+        
+<body>
+<div class="header-blue">
+     <%- include('../partials/header'); %>
+ <style type="text/css">
+    * {
+    margin: 0;
+    padding: 0
+}
+
+html {
+    height: 100%
+}
+
+body {
+    background-color: #000000
+}
+
+.card0 {
+    margin: -10px 12px 15px 12px;
+    border: 0
+}
+
+.card1 {
+    margin: 0;
+    padding: 15px;
+    padding-top: 25px;
+    padding-bottom: 0px;
+    background: #263238;
+    height: 100%
+}
+
+.bill-head {
+    color: #ffffff;
+    font-weight: bold;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    font-size: 20px
+}
+
+.line {
+    border-right: 1px grey solid
+}
+
+.bill-date {
+    color: #BDBDBD
+}
+
+.red-bg {
+    margin-top: 67px;
+    margin-left: 0px;
+    margin-right: 0px;
+    background-color: #F44336;
+    padding-left: 20px !important;
+    padding: 25px 10px 25px 15px
+}
+
+#total {
+    margin-top: 0px;
+    padding-left: 7px
+}
+
+#total-label {
+    margin-bottom: 0px;
+    color: #ffffff;
+    padding-left: 7px
+}
+
+#heading1 {
+    color: #ffffff;
+    font-size: 20px;
+    padding-left: 10px
+}
+
+#heading2 {
+    font-size: 27px;
+    color: #D50000
+}
+
+.placeicon {
+    font-family: fontawesome !important
+}
+
+
+
+.form-card .pay {
+    font-weight: bold
+}
+
+.form-card input,
+.form-card textarea {
+    padding: 10px 8px 10px 8px;
+    border: none;
+    border: 1px solid lightgrey;
+    border-radius: 0px;
+    margin-bottom: 25px;
+    margin-top: 2px;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: montserrat;
+    color: #2C3E50;
+    font-size: 14px;
+    letter-spacing: 1px
+}
+
+.form-card input:focus,
+.form-card textarea:focus {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border: none;
+    font-weight: bold;
+    border: 1px solid gray;
+    outline-width: 0
+}
+
+.btn-info {
+    color: #ffffff !important
+}
+
+.radio-group {
+    position: relative;
+    margin-bottom: 25px
+}
+
+.radio {
+    display: inline-block;
+    width: 204;
+    height: 64;
+    border-radius: 0;
+    background: lightblue;
+    box-sizing: border-box;
+    border: 2px solid lightgrey;
+    cursor: pointer;
+    margin: 8px 25px 8px 0px
+}
+
+.radio:hover {
+    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.2)
+}
+
+.radio.selected {
+    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.4)
+}
+
+.fit-image {
+    width: 100%;
+    object-fit: cover
+}
+
+.btn2{
+    border-radius: 20px;
+}
+
+.drink_value{
+
+    font-size: 15px;
+    font-weight: normal;
+    
+
+}
+.append_list1 input[type=text] {
+   
+    width: 28px;
+    font: 700 20px Helvetica,sans-serif;
+    padding: 3px 0 0;
+    text-align: center;
+}
+
+
+.inc{
+	margin-right: 7px;
+}
+
+.dec{
+	margin-left: 5px;
+}
+
+.btn-circle.btn-sm {
+	         padding: 0em;
+	         cursor: pointer;
+            width: 25px;
+            height: 25px;
+            border-radius: 15px;
+            font-size: 18px;
+            
+        }
+
+.table{
+    margin-bottom: 0em;
+}
+
+.offset-md-1 {
+    margin-left: 8.333333%!important;
+}
+
+</style>
+<script type="text/javascript">
+      function addDash (element) {
+        var count = 0;
+        let ele = document.getElementById(element.id);
+        ele = ele.value.split('-').join('');
+        let finalVal = ele.match(/.{1,4}/g).join('-');
+        document.getElementById(element.id).value = finalVal;
+    }
+
+    $(document).ready(function(){
+
+        $("#all").click(function(){
+         $("#show_pop").show();
+         $("#show_sna").show();
+         $("#show_bev").show();
+
+  });
+
+        $("#pop").click(function(){
+            $("#show_pop").show();
+     $("#show_sna").hide();
+   $("#show_bev").hide();
+  });
+
+        $("#sna").click(function(){
+     $("#show_sna").show();
+     $("#show_pop").hide();
+   $("#show_bev").hide();
+  });
+  
+
+  $("#bev").click(function(){
+    $("#show_bev").show();
+     $("#show_sna").hide();
+   $("#show_pop").hide();
+  });
+
+
+
+ 
+$('body').on('click', '.button1', function() {
+var $button=$(this);
+var oldValue=$button.parent().find("input").val();
+var food_price=$(this).parent().parent().find(".food_price").text();
+if($button.text()=="+"){
+var newVal=parseFloat(oldValue)+1;
+}
+
+else if(oldValue>1){
+var newVal=parseFloat(oldValue)-1;
+}
+else{
+    newVal = 1;
+}
+
+
+var new_price = newVal*(food_price/oldValue);
+$button.parent().find("input.orders_quantity").val(newVal);
+$button.parent().parent().find(".food_price").text(new_price);
+$button.parent().parent().find("input.orders_price").val(new_price);
+ var sum = 0;
+                $('.append_list1 .food_price').each(function() {
+                sum = sum + Number($(this).text());
+	                })
+
+                var ticket_price = <%=sess.price*250%>;
+                var total_price = ticket_price + sum;
+                total_price = String(total_price)
+                total_price = "Pay "+total_price;
+                $('.extra_price').text(sum);
+                $('input.extra_price').val(sum);
+                $('button.pay_price').html(total_price);
+});
+
+
+
+
+
+
+  $(".caption button").click(function(){
+    var scrolled=0;
+       $(".food").show();
+       $(".extra_price2").show();
+       var data1 = $(this).attr("value1");
+       var data2 = $(this).attr("value2");
+       $(this).prop('disabled', true);
+       $('<tr> <th class="food_name" scope="row" style="font-size: 13px;">'+data1+'</th><input type="hidden" class="orders_name" name="orders_name" value=""><td><button type="button" class="inc button1 btn btn-primary btn-circle btn-sm">+</button><input type="text" class="orders_quantity" name="orders_quantity" value="1" readonly><button type="button" class="dec button1 btn btn-primary btn-circle btn-sm">-</button></td><td class="food_price">'+data2+'</td><input type="hidden" class="orders_price" name="orders_price" value=""><td scope="row"><img class="img-responsive remove" src="/img/delete.png" height="30" style="cursor: pointer;"></td></tr>').appendTo('.append_list1');
+       
+       $('.append_list1 input.orders_name').last().val(data1);
+       $('.append_list1 input.orders_price').last().val(data2);
+       
+       scrolled = scrolled+2500;
+        
+                $(".box1").animate({
+                        scrollTop:  scrolled
+                   });
+
+
+
+
+                var sum = 0;
+                $('.append_list1 .food_price').each(function() {
+                sum = sum + Number($(this).text());
+	                })
+
+                var ticket_price = <%=sess.price*250%>;
+                var total_price = ticket_price + sum;
+                 total_price = String(total_price)
+                total_price = "Pay "+total_price;
+                
+                $('.extra_price').text(sum);
+                $('input.extra_price').val(sum);
+                $('button.pay_price').html(total_price);
+
+    })
+
+
+  
+$('body').on('click', '.remove', function() {
+  var nrows = $('.table').find('tr').length;
+  $(this).closest("tr").remove();
+
+  var food_name=$(this).parent().parent().find(".food_name").text();
+ $('p button').each(function() {
+
+var x = $(this).attr("value1");
+ if(x == food_name)
+    $(this).prop('disabled', false);
+    
+
+
+});
+
+
+  if(nrows == 2)
+  {
+  	$('.food').hide();
+  	$('.extra_price2').hide();
+  }
+  
+
+ var sum = 0;
+                $('.append_list1 .food_price').each(function() {
+                sum = sum + Number($(this).text());
+	                })
+                var ticket_price = <%=sess.price*250%>;
+                var total_price = ticket_price + sum;
+                 total_price = String(total_price)
+                total_price = "Pay "+total_price;
+                
+                $('.extra_price').text(sum);
+                $('input.extra_price').val(sum);
+                $('button.pay_price').html(total_price);
+
+ });
+
+
+
+
+});
+
+</script>
+     <div class="container-fluid" style="margin-top: -40px;">
+         <div class="row justify-content-center">
+         	  <div class="offset-md-1 col-md-6 col-sm-12  p-0 box " style="background-color: white;">
+
+
+                        <div class="container-fluid">
+                            <div style="height: 10px; background-color: #007bff; margin: 0 -15px;"></div>
+                            <div class="row" style="background-color: #007bff;">
+                                <div class="col-lg-3 col-3">
+                                    <button type="button" id="all" class="btn btn-primary btn2">ALL</button>
+                                </div>
+
+                                 <div class="col-lg-3 col-3">
+                                    <button type="button" id="pop" class="btn btn-primary btn2">POPCORN</button>
+                                </div>
+
+                                <div class="col-lg-3 col-3">
+                                    <button type="button" id="sna" class="btn btn-primary btn2">SNACKS</button>
+                                </div>
+
+                                <div class="col-lg-3 col-3">
+                                    <button type="button" id="bev" class="btn btn-primary btn2">BEVERAGES</button>
+                                </div>
+                            </div>
+                            <br><br>
+
+                            <div class="row" id="show_pop">
+    <div class="col">
+      <div class="thumbnail">
+       
+          <img src="//in.bmscdn.com/bmsin/v2/Web-v2/d-combo/1020001_13082018125322.jpg" alt="Lights" style="width:100%">
+          <div class="caption">
+            <p class="pname">Tub Salted Popcorn</p>
+            <p class="pname">&#x20b9; 190</p>
+             <p>
+                   <button class = "btn btn-primary" type = "button" value1="Tub Salted Popcorn" value2="190">
+                      Add
+                   </button> 
+            </p>
+          </div>
+        
+      </div>
+    </div>
+    <div class="col">
+      <div class="thumbnail">
+          <img src="//in.bmscdn.com/bmsin/v2/Web-v2/d-combo/1020004_17082018144718.jpg" alt="Nature" style="width:100%">
+          <div class="caption">
+            <p class="pname">Caramel Popcorn</p>
+            <p class="pname">&#x20b9; 230</p>
+            <p>
+                   <button class = "btn btn-primary" type = "button" value1="Caramel Popcorn" value2="230">
+                      Add
+                   </button> 
+            </p>
+          </div>
+        
+      </div>
+    </div>
+    <div class="col">
+      <div class="thumbnail">
+        
+          <img src="//in.bmscdn.com/bmsin/v2/Web-v2/d-combo/1020004_17082018144718.jpg" alt="Fjords" style="width:100%">
+          <div class="caption">
+            <p class="pname">Regular Salted Popcorn</p>
+            <p class="pname">&#x20b9; 180</p>
+            <p>
+                   <button class = "btn btn-primary" type = "button" value1="Regular Salted Popcorn" value2="180">
+                      Add
+                   </button> 
+            </p>
+          </div>
+        
+      </div>
+    </div>
+</div>
+
+<div class="row" id="show_sna">
+
+    <div class="col">
+      <div class="thumbnail">
+       
+          <img src="//in.bmscdn.com/bmsin/v2/Web-v2/d-combo/1020036_13082018160631.jpg" alt="Lights" style="width:100%">
+          <div class="caption">
+            <p class="pname">Peri Peri French Fries</p>
+            <p class="pname">&#x20b9; 180</p>
+             <p>
+                   <button class = "btn btn-primary" type = "button" value1="Peri Peri French Fries" value2="180">
+                      Add
+                   </button> 
+            </p>
+          </div>
+        
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="thumbnail">
+       
+          <img src="//in.bmscdn.com/bmsin/v2/Web-v2/d-combo/1020076_13082018124640.jpg" alt="Lights" style="width:100%">
+          <div class="caption">
+            <p class="pname">2 Pcs Aloo Samosa</p>
+            <p class="pname">&#x20b9; 110</p>
+             <p>
+                   <button class = "btn btn-primary" type = "button" value1="2 Pcs Aloo Samosa" value2="110">
+                      Add
+                   </button> 
+            </p>
+          </div>
+        
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="thumbnail">
+       
+          <img src="//in.bmscdn.com/bmsin/v2/Web-v2/d-combo/1020165_06082018182225.jpg" alt="Lights" style="width:100%">
+          <div class="caption">
+            <p class="pname">Egg Puff</p>
+            <p class="pname">&#x20b9; 80</p>
+             <p>
+                   <button class = "btn btn-primary" type = "button" value1="Egg Puff" value2="80">
+                      Add
+                   </button> 
+            </p>
+          </div>
+        
+      </div>
+    </div>
+
+    
+</div>
+
+                               
+<div class="row" id="show_bev">
+
+    <div class="col">
+      <div class="thumbnail">
+       
+          <img src="//in.bmscdn.com/bmsin/v2/Web-v2/d-combo/1020011_17082018145045.jpg" alt="Lights" style="width:100%">
+          <div class="caption">
+            <p class="pname">Coke 400ml</p>
+            <p class="pname">&#x20b9; 130</p>
+             <p>
+                   <button class = "btn btn-primary" type = "button" value1="Coke 400ml" value2="130">
+                      Add
+                   </button> 
+            </p>
+          </div>
+        
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="thumbnail">
+       
+          <img src="//in.bmscdn.com/bmsin/v2/Web-v2/d-combo/1020171_06082018153946.jpg" alt="Lights" style="width:100%">
+          <div class="caption">
+            <p class="pname">Water Bottle 750ml</p>
+            <p class="pname">&#x20b9; 50</p>
+             <p>
+                   <button class = "btn btn-primary" type = "button" value1="Water Bottle 750ml" value2="50">
+                      Add
+                   </button> 
+            </p>
+          </div>
+        
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="thumbnail">
+       
+          <img src="//in.bmscdn.com/bmsin/v2/Web-v2/d-combo/1020080_17082018155618.jpg" alt="Lights" style="width:100%">
+          <div class="caption">
+            <p class="pname">Cappuccino 180ml</p>
+            <p class="pname">&#x20b9; 110</p>
+             <p>
+                   <button class = "btn btn-primary" type = "button" value1="Cappuccino 180ml" value2="110">
+                      Add
+                   </button> 
+            </p>
+          </div>
+        
+      </div>
+    </div>
+
+    
+</div>
+ </div>
+                               
+
+              
+             </div>
+
+
+             <div class="offset-md-1 col-md-4 col-sm-12 card1 p-0 box " >
+             	<form action="/foods" method="POST">
+             	<div class="box1" style="height: 500px; overflow-y:auto; overflow-x: hidden;">
+              <br>
+              <h3 id="heading1">Booking Summary</h3>
+                            <div class="row">
+                                <div class="col-lg-4 col-4 mt-4 line pl-4">
+                                    <h2 class="bill-head">Movie</h2> 
+                                </div>
+                                <div class="col-lg-8 col-8 mt-4">
+                                    <h2 class="bill-head px-xl-5 px-lg-4"><%=sess.title%></h2>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4 col-4 mt-4 line pl-4">
+                                    <h2 class="bill-head">City</h2> 
+                                </div>
+                                <div class="col-lg-8 col-8 mt-4">
+                                    <h2 class="bill-head px-xl-5 px-lg-4"><%=sess.city%></h2>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4 col-4 mt-4 line pl-4">
+                                    <h2 class="bill-head">Theatre</h2> 
+                                </div>
+                                <div class="col-lg-8 col-8 mt-4">
+                                    <h2 class="bill-head px-xl-5 px-lg-4"><%=sess.theatre%></h2>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4 col-4 mt-4 line pl-4">
+                                    <h2 class="bill-head">No of Seats</h2> 
+                                </div>
+                                <div class="col-lg-8 col-8 mt-4">
+                                    <h2 class="bill-head px-xl-5 px-lg-4"><%=sess.price%></h2>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4 col-4 mt-4 line pl-4">
+                                    <h2 class="bill-head">Seats</h2> 
+                                </div>
+                                <div class="col-lg-8 col-8 mt-4">
+                                    <h2 class="bill-head px-xl-5 px-lg-4"><%=sess.seats%></h2>
+                                </div>
+                            </div>
+                             <div class="row">
+                                <div class="col-lg-4 col-4 mt-4 line pl-4">
+                                    <h2 class="bill-head">Show Date</h2> 
+                                </div>
+                                <div class="col-lg-8 col-8 mt-4">
+                                    <h2 class="bill-head px-xl-5 px-lg-4"><%=sess.date%></h2>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4 col-4 mt-4 line pl-4">
+                                    <h2 class="bill-head">Show Time</h2> 
+                                </div>
+                                <div class="col-lg-8 col-8 mt-4">
+                                    <h2 class="bill-head px-xl-5 px-lg-4"><%=sess.time%></h2>
+                                </div>
+                            </div>
+                            <br><br>
+
+                           
+
+                            
+
+                            <div class="row food" style="margin-left:0px ;margin-right: 0px; display: none; margin-top: -67px;">
+                                <div class="col-lg-12 col-12 mt-12 line pl-12 red-bg">
+                                    <h2 class="bill-head">Foods & Drinks</h2>
+                                </div>
+
+
+                                <table class="table table-bordered table-dark" name="orders">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Remove</th>
+                                        
+                                      </tr>
+                                    </thead>
+                                    <tbody class="append_list1">
+                                    
+
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                                    
+             </div>
+             <div>
+            
+           
+             <div class="row extra_price2" style="margin-left:0px ;margin-right: 0px;display: none;">
+                              
+                                <div class="col-lg-6 col-6 mt-4 line pl-4 red-bg">
+                                    <h2 class="bill-head">Food & drink Price</h2>
+                                </div>
+                                <div class="col-lg-6 col-6 mt-4 red-bg">
+                                <h2 class="bill-head px-xl-5 px-lg-4 extra_price"> </h2>
+                                <input type="hidden" name="extra_price" class="extra_price" value="">
+                                </div>
+             </div>
+
+              <div class="row" style="margin-left:0px ;margin-right: 0px;">
+                                <div class="col-lg-6 col-6 mt-4 line pl-4 red-bg">
+                                    <h2 class="bill-head">Tickets Price</h2>
+                                </div>
+                                <div class="col-lg-6 col-6 mt-4 red-bg">
+                                    <h2 class="bill-head px-xl-5 px-lg-4">&#x20b9; <%=sess.price*250%></h2>
+                                </div>
+              </div>
+             <br>
+
+            <button type="submit" class="btn btn-primary btn-block pay_price" style="font-weight: bold;">Pay <%=sess.price*250%></button>
+            <br>
+
+
+
+
+
+             </div>
+         </form>
+         </div>
+
+
+
+           
+         </div>
+     </div>
+
+
+  </div>
+</body>
+</html>
