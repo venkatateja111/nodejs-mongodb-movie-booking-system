@@ -2229,6 +2229,43 @@ app.post('/seats_del', urlencodedParser , function(req, res) {
 var sess = req.session
 var status,No_of_seats_cancelled,Total_price_refund
 
+<<<<<<< HEAD
+
+var seats = req.body.seats_del
+var date_of_booking = req.body.date_of_booking
+console.log(seats)
+
+if(typeof seats == "string")
+No_of_seats_cancelled1 = 1
+else
+No_of_seats_cancelled1 = Object.keys(seats).length
+
+
+
+console.log("No_of_seats_cancelled :  ",No_of_seats_cancelled1)
+console.log(date_of_booking)
+
+
+MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
+                  if (err) throw err;
+                  var dbo = db.db("moviesdb");
+
+dbo.collection("users_transactions").findOne({user_id: sess.user_id , Date_of_booking: date_of_booking}).then(function(result)
+                {
+                     No_booked_seats = result.No_of_seats
+                     No_of_seats_cancelled2 = result.No_of_seats_cancelled
+                     if(No_of_seats_cancelled2 == undefined)
+                      No_of_seats_cancelled2 = 0
+                     No_of_available_seats = No_booked_seats - No_of_seats_cancelled2
+
+
+
+                     
+
+                     console.log("No_booked_seats : ",No_booked_seats)
+                     console.log("No_of_seats_cancelled2 before : ",No_of_seats_cancelled2)
+                     console.log("No_of_available_seats : ",No_of_available_seats)
+=======
 
 var seats = req.body.seats_del
 var date_of_booking = req.body.date_of_booking
@@ -2376,7 +2413,122 @@ console.log(Total_price_paid)
 console.log(No_of_seats_cancelled)
 console.log(sess.extra_orders_array)
 console.log(effective_price)
+>>>>>>> parent of 1b160c4 (update)
 
+                     
+
+                     if(No_of_seats_cancelled1 == No_of_available_seats)
+                     {
+
+                      status = "CANCELLED"
+                      No_of_seats_cancelled = No_booked_seats
+                      Total_price_refund = sess.total_price - ((No_of_seats_cancelled2)*250)
+                      sess.ticket_status = "CANCELLED"
+                      seats2 = result.seats
+
+                    }
+
+                    else
+                    {
+                      status = "CONFIRMED"
+                      seats2 = []
+                      //seats2 = seats
+                      if(result.cancelled_seats !== undefined){
+                                              
+                          for(i=0;i< result.cancelled_seats.length;i++)
+                            seats2.push(result.cancelled_seats[i])
+                        
+                      }
+                      
+                      if(typeof seats == "string")
+                        seats2.push(seats)
+                      else{
+                        for(i=0;i< seats.length;i++)
+                            seats2.push(seats[i])
+                      }
+                      
+                      sess.cancelled_seats = seats2
+                      No_of_seats_cancelled = No_of_seats_cancelled2+No_of_seats_cancelled1
+                      Total_price_refund = No_of_seats_cancelled1*250
+                      console.log("No_of_seats_cancelled total",No_of_seats_cancelled)
+                    }
+                    console.log("here")
+                    console.log(seats2)
+                    console.log(sess.seats)
+                    console.log(sess.cancelled_seats)
+                    var arr3 = sess.seats.filter(d => !sess.cancelled_seats.includes(d))
+                    
+                    //sess.seats = arr3
+                    console.log(arr3)
+               
+                dbo.collection("users_transactions").findOneAndUpdate({ user_id: sess.user_id, Date_of_booking: date_of_booking}, 
+                  {$set: {"status" : status, "No_of_seats_cancelled":No_of_seats_cancelled, "cancelled_seats":seats2}}).then(function(result)
+                {
+                   
+
+                   var myobj = {
+
+                          user  : sess.Fullname,
+                          email : sess.email,
+                          user_id: sess.user_id,
+                          title : sess.title,
+                          Total_price_paid: sess.total_price,
+                          Total_price_refund : Total_price_refund,
+                          seats_cancelled : seats,
+                          status: "CANCELLED",
+                          transaction_date: Date()
+
+                        }
+                           dbo.collection("billing").insertOne(myobj, function(err, res) {
+
+                            
+                            
+                           });
+
+                           
+
+                           res.render('pages/ticket_details',{date_of_show2:sess.date_of_show2,date_of_booking,arr3})
+                            
+                })
+
+                   
+
+                      
+
+
+
+
+                })
+
+
+})
+
+})
+
+
+
+
+
+
+
+
+
+app.get('/foods2', urlencodedParser , function(req, res) {
+
+var sess = req.session;
+
+var Total_price_paid = sess.Total_price_paid
+var No_of_seats = sess.price
+var No_of_seats_cancelled = sess.cancelled_seats.length
+var No_of_seats_remain = Number(No_of_seats) - Number(No_of_seats_cancelled)
+var effective_price = (Number(Total_price_paid) - (Number(No_of_seats_cancelled)*250)) - ((No_of_seats_remain)*250)
+console.log(Total_price_paid)
+console.log(No_of_seats_cancelled)
+console.log(sess.extra_orders_array)
+console.log(effective_price)
+
+
+})
 
 })
 
